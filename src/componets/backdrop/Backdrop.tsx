@@ -1,0 +1,27 @@
+import { Button, Card, CardMedia, Typography } from "@mui/material";
+import { StyledBackdrop } from "./StyledBackdrop";
+
+export type CardProps = {
+  id?: number;
+  backdropPath?: string;
+  originalTitle?: string;
+};
+//concatenate start url to image
+
+export const Backdrop: React.FC<CardProps> = ({
+  id,
+  backdropPath: image,
+  originalTitle: title,
+}) => {
+  
+  return (
+    <>
+    <Card key={id} sx={{ minWidth: 275 }}>
+      <StyledBackdrop>
+      <CardMedia component="img" image={image} alt={title} />
+      <Typography>{title}</Typography>
+      </StyledBackdrop>
+    </Card>
+    </>
+  );
+};

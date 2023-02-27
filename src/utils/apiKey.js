@@ -1,0 +1,4 @@
+export const apiKey = "5e2f50c8733fe2c833f5a0a631afc76b";
+
+export const ReadAccessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZTJmNTBjODczM2ZlMmM4MzNmNWEwYTYzMWFmYzc2YiIsInN1YiI6IjYzZTI5Njg3NzczOTQxMDBhYTI5YjhjNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.osFZfHZICR4ozfCFPhXVa3XxGKD2pc28mpwSrSV3u7g"
+
