@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import { styled } from '@mui/material/styles';
 
-export const StyledCarusel = styled.div`
+export const StyledCarusel = styled('div')`
 margin: 10%;
 `
 export const settings = {

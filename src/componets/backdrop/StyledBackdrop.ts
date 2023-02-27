@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import { styled } from '@mui/material/styles';
 
-export const StyledBackdrop = styled.div `
+export const StyledBackdrop = styled('div')`
     width: 233px;
     height: 127px;
 `
