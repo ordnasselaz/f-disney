@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { Carusel } from "./componets/carusel/Carusel";
+import { Card } from "./componets/Card";
 
 const settings = {
   slidesToShow: 3,
@@ -12,7 +13,11 @@ const settings = {
 
 function Home() {
   return (
-    <Carusel />
+    <>
+      <Carusel />
+      <Card name="Alessandro" color='green' />
+      <Card name="Simone" color='aliceblue' />
+    </>
   );
 }
 
