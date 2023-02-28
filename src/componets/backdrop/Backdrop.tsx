@@ -1,5 +1,5 @@
-import { Button, Card, CardMedia, Typography } from "@mui/material";
-import { StyledBackdrop } from "./StyledBackdrop";
+import { Card, CardMedia, Typography } from "@mui/material";
+import { StyledBackdrop } from './styles'
 
 export type CardProps = {
   id?: number;

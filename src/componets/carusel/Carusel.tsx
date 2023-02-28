@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
-import { getPopular } from "../../utils/httpsService";
-import { CardProps, Backdrop } from "../backdrop/Backdrop";
-import { settings, StyledCarusel } from "./StyledCarusel";
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { getPopular } from "../../utils/httpsService";
+import { CardProps, Backdrop } from "../Backdrop";
+import { settings, StyledCarusel } from "./styles"
 
 export const Carusel: React.FC = () => {
   const [list, setList] = useState<Array<CardProps>>([]);
