@@ -47,7 +47,7 @@ export const getRequestToken = async () => {
     const requestToken: string = response.data.request_token;
     const authUrl = `https://www.themoviedb.org/auth/access?request_token=${requestToken}`;
     console.log(`click here to authorize: ${authUrl}`);
-    return requestToken;
+    return {authUrl};
     //await requestAccessToken(requestToken);
   } catch (error) {
     console.error(error);
