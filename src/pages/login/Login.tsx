@@ -3,8 +3,8 @@ import Button from "@mui/material/Button/Button";
 import React, { useState } from "react";
 import { getRequestToken } from "../../utils/httpsService";
 import { StyledLogin, StyledToolbar } from "./styles";
-const background1 = require("../../utils/img/loginBackground1.jpeg");
-const background2 = require("../../utils/img/loginBackground2.jpeg")
+import background1 from "../../utils/img/loginBackground1.jpeg";
+import background2 from "../../utils/img/loginBackground2.jpeg";
 
 
 type AuthUrlResponse = {

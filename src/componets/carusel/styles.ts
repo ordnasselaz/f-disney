@@ -4,21 +4,18 @@ export const StyledCarusel = styled('div')`
 margin: 10%;
 `
 export const settings = {
-  dots: true,
+  dots: false,
   infinite: false,
-  speed: 500,
   slidesToShow: 4.5,
   slidesToScroll: 1,
   initialSlide: 0,
-  arrow: false,
+  arrows: true,
   responsive: [
     {
       breakpoint: 1024,
       settings: {
         slidesToShow: 3.5,
         slidesToScroll: 1,
-        infinite: true,
-        dots: true
       }
     },
     {

@@ -4,12 +4,12 @@ import { Login } from "../pages/login/Login";
 
 export const router = createBrowserRouter([
     {
-        path: "/login",
+        path: "/",
         element: <Login />
     },
     {
         path: "/home",
-        element: <></> //<Home />
+        element: <App />
     },
     {
         path: "/movies",
@@ -46,8 +46,4 @@ export const router = createBrowserRouter([
         element: <></> //<Legal />
     } 
     */
-   {
-    path: "/test",
-    element: <App/>
-   }
 ])

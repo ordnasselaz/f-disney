@@ -16,7 +16,7 @@ export const Backdrop: React.FC<CardProps> = ({
   
   return (
     <>
-    <Card key={id} sx={{ minWidth: 275 }}>
+    <Card key={id} >
       <StyledBackdrop>
       <CardMedia component="img" image={image} alt={title} />
       <Typography>{title}</Typography>
