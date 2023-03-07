@@ -4,23 +4,76 @@ import { apiKey, ReadAccessToken as rat } from "./apiKey";
 
 type ApiResponseHome = {
   id: number;
-  originalTitle: string;
   backdropPath: string;
+  originalTitle?: string;
+  originalName?: string;
 };
 
-const formatApiResponse = (response: ApiResponseHome[]): CardProps[] => {
+type Cast = {
+  name: string
+  order: number
+}
+
+type Crew = {
+  name: string
+  job: string
+}
+
+type Credits = {
+  cast: Cast[]
+  crew: Crew[]
+}
+
+type Genre = {
+  id: number
+  name: string
+};
+
+type ApiResponseMovie = {
+  id: number;
+  backdropPath: string;
+  title?: string;
+  name?: string;
+  overview?: string;
+  runtime?: number;
+  release_date?: string;
+  genres: Genre[];
+  adult: boolean;
+  credits: Credits
+};
+
+const formatApiResponseHome = (response: ApiResponseHome[]): CardProps[] => {
   return response.map((result: any) => ({
     id: result.id,
-    originalTitle: result.title,
+    title: result.title || result.original_name,
     backdropPath: `https://image.tmdb.org/t/p/original${result.backdrop_path}`,
   }));
 };
+
+const formatApiResponseMovie = (result: ApiResponseMovie): any => {
+  const castNames = getCastNames(result.credits, 10);
+  const directorName = getDirectorName(result.credits);
+  return {
+    id: result.id,
+    backdropPath: `https://image.tmdb.org/t/p/original${result.backdropPath}`,
+    title: result.title,
+    overview: result.overview,
+    runtime: `${result.runtime} min`,
+    relaseDate: result.release_date,
+    genres: result.genres.map((genre) => genre.name),
+    adult: result.adult,
+    castNames,
+    directorName
+  };
+};
+
 
 export const getPopular = async (): Promise<CardProps[]> => {
   const response = await axios.get(
     `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`
   );
-  const movie = formatApiResponse(response.data.results);
+  const movie = formatApiResponseHome(response.data.results);
+  console.log(movie)
   return movie;
 };
 
@@ -28,7 +81,42 @@ export const getTopRated = async (): Promise<CardProps[]> => {
   const response = await axios.get(
     `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=1`
   );
-  const movie = formatApiResponse(response.data.results);
+  const movie = formatApiResponseHome(response.data.results);
+  return movie;
+};
+
+export const getUpcoming = async (): Promise<CardProps[]> => {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&language=en-US&page=2`
+  );
+  const movie = formatApiResponseHome(response.data.results);
+  return movie;
+};
+
+
+export const getAction = async (): Promise<CardProps[]> => {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=28`
+  );
+  const movie = formatApiResponseHome(response.data.results);
+  return movie;
+};
+
+const getDirectorName = (credits: Credits): string | undefined => {
+  const director = credits.crew.find((crew) => crew.job === 'Director');
+  return director?.name;
+};
+
+const getCastNames = (credits: Credits, count: number): string[] => {
+  return credits.cast.slice(0, count).map((cast) => cast.name);
+};
+
+export const getMovieDetails = async (movie_id: number): Promise<any> => {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${apiKey}&language=en-US&append_to_response=credits`
+  );
+  const movie = formatApiResponseMovie(response.data);
+  console.log(movie);
   return movie;
 };
 
@@ -37,6 +125,8 @@ export const apiCalls: {
 } = {
   popular: getPopular,
   topRated: getTopRated,
+  upcoming: getUpcoming,
+  action: getAction,
 };
 
 export const fetchData = async (id: string): Promise<CardProps[]> => {

@@ -7,7 +7,7 @@ function Home() {
     <>
       <Navbar />
       <Carusel id='popular'/>
-      <Carusel id='topRated' />
+      
     </>
   );
 }

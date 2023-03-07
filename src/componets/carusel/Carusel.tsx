@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { fetchData } from "../../utils/httpsService";
 import { CardProps, Backdrop } from "../Backdrop";
-import { settings, StyledCarusel } from "./styles";
+import { settings, } from "./styles";
 import { Typography } from "@mui/material";
 
 type CaruselProps = {
@@ -18,18 +18,18 @@ export const Carusel: React.FC<CaruselProps> = ({ id }) => {
     fetchData(id)
       .then((response) => setList(response))
       .catch((error) => console.error(error));
+  // è corretto?
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <Typography>{id}</Typography>
-      <StyledCarusel id="carusel">
+        <Typography>{id}</Typography>
         <Slider {...settings}>
-          {list.map((film) => (
-            <Backdrop key={film.id} {...film} />
+          {list.map((movie) => (
+            <Backdrop key={movie.id} {...movie} />
           ))}
         </Slider>
-      </StyledCarusel>
     </>
   );
 };

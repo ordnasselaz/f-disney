@@ -5,7 +5,7 @@ import logo from "../../utils/img/logo.jpeg";
 export const Navbar: React.FC = () => {
   return (
     <StyledNavbar sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
+      <AppBar>
         <StyledFullToolbar >
           <img src={logo} alt="logo"></img>
           <Typography variant="h6" component="div">
