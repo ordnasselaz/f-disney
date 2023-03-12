@@ -10,28 +10,67 @@ type ApiResponseHome = {
 };
 
 type Cast = {
-  name: string
-  order: number
-}
-
-type Crew = {
-  name: string
-  job: string
-}
-
-type Credits = {
-  cast: Cast[]
-  crew: Crew[]
-}
-
-type Genre = {
-  id: number
-  name: string
+  name: string;
+  order: number;
 };
 
-type ApiResponseMovie = {
+type Crew = {
+  name: string;
+  job: string;
+};
+
+type Credits = {
+  cast: Cast[];
+  crew: Crew[];
+};
+
+type Genre = {
   id: number;
-  backdropPath: string;
+  name: string;
+};
+
+type Videos = {
+  results: Result;
+};
+
+type Result = {
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  id: string;
+};
+
+type Recommendations = {
+  page: number;
+  results: Result2[];
+  total_pages: number;
+  total_results: number;
+};
+
+type Result2 = {
+  adult: boolean;
+  backdrop_path?: string;
+  id: number;
+  title: string;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  poster_path?: string;
+  media_type: string;
+  genre_ids: number[];
+  popularity: number;
+  release_date: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+};
+
+export type ApiResponseMovie = {
+  id: number;
+  backdrop_path: string;
   title?: string;
   name?: string;
   overview?: string;
@@ -39,14 +78,18 @@ type ApiResponseMovie = {
   release_date?: string;
   genres: Genre[];
   adult: boolean;
-  credits: Credits
+  credits: Credits;
+  directorName: string;
+  castNames: Cast[];
+  videos: Videos;
+  recommendations: Recommendations;
 };
 
 const formatApiResponseHome = (response: ApiResponseHome[]): CardProps[] => {
   return response.map((result: any) => ({
     id: result.id,
     title: result.title || result.original_name,
-    backdropPath: `https://image.tmdb.org/t/p/original${result.backdrop_path}`,
+    backdrop_path: result.backdrop_path,
   }));
 };
 
@@ -55,25 +98,27 @@ const formatApiResponseMovie = (result: ApiResponseMovie): any => {
   const directorName = getDirectorName(result.credits);
   return {
     id: result.id,
-    backdropPath: `https://image.tmdb.org/t/p/original${result.backdropPath}`,
+    backdrop_path: result.backdrop_path,
     title: result.title,
     overview: result.overview,
     runtime: `${result.runtime} min`,
-    relaseDate: result.release_date,
+    release_date: result.release_date,
     genres: result.genres.map((genre) => genre.name),
     adult: result.adult,
     castNames,
-    directorName
+    directorName,
+    videos: result.videos,
+    recommendations: result.recommendations
+
   };
 };
-
 
 export const getPopular = async (): Promise<CardProps[]> => {
   const response = await axios.get(
     `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`
   );
   const movie = formatApiResponseHome(response.data.results);
-  console.log(movie)
+  console.log(movie);
   return movie;
 };
 
@@ -93,7 +138,6 @@ export const getUpcoming = async (): Promise<CardProps[]> => {
   return movie;
 };
 
-
 export const getAction = async (): Promise<CardProps[]> => {
   const response = await axios.get(
     `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=28`
@@ -103,7 +147,7 @@ export const getAction = async (): Promise<CardProps[]> => {
 };
 
 const getDirectorName = (credits: Credits): string | undefined => {
-  const director = credits.crew.find((crew) => crew.job === 'Director');
+  const director = credits.crew.find((crew) => crew.job === "Director");
   return director?.name;
 };
 
@@ -113,10 +157,9 @@ const getCastNames = (credits: Credits, count: number): string[] => {
 
 export const getMovieDetails = async (movie_id: number): Promise<any> => {
   const response = await axios.get(
-    `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${apiKey}&language=en-US&append_to_response=credits`
+    `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${apiKey}&language=en-US&append_to_response=credits,videos,recommendations`
   );
   const movie = formatApiResponseMovie(response.data);
-  console.log(movie);
   return movie;
 };
 
@@ -163,8 +206,8 @@ export const getRequestToken = async () => {
   try {
     const response = await axios(config);
     const requestToken: string = response.data.request_token;
-    const authUrl = `https://www.themoviedb.org/auth/access?request_token=${requestToken}`;
-    return { authUrl };
+    console.log(requestToken);
+    return { requestToken };
     //await requestAccessToken(requestToken);
   } catch (error) {
     console.error(error);
@@ -172,14 +215,101 @@ export const getRequestToken = async () => {
 };
 
 // With an approved request token, generate a access token
-/*
-const requestAccessToken = async (requestToken: string) => {
+
+export const getAccessToken = async (requestToken: string) => {
   const config: AxiosRequestConfig = {
     url: "https://api.themoviedb.org/4/auth/access_token",
     method: "POST",
     headers: {
       "content-type": "application/json",
-      "authorization": `Bearer ${rat}`,
+      authorization: `Bearer ${rat}`,
+    },
+    data: JSON.stringify({ request_token: requestToken }),
+  };
+  try {
+    const response = await axios(config);
+    return response.data; // restituisci solo i dati della risposta
+  } catch (error) {
+    console.error("error: " + error);
+  }
+};
+
+//get all list
+
+export const getAllList = async (accountid: string, accessToken: string) => {
+  const settings = {
+    "url": `https://api.themoviedb.org/4/account/${accountid}/lists?page=1`,
+    "method": "GET",
+    "headers": {
+      "authorization": `Bearer ${accessToken}`
+    }
+  };
+  
+  axios(settings)
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+// get list by Id
+export const getListById = async (listId : number) => {
+  const settings = {
+    "url": `https://api.themoviedb.org/4/list/${listId}?page=1&api_key=${apiKey}`,
+    "method": "GET",
+    "headers": {
+      "Content-Type": "application/json;charset=utf-8",
+      "Authorization": `Bearer ${rat}`
+    }
+  };
+  
+  axios(settings)
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+
+
+// add an item to the list
+
+export const addItems = async (listId: number, media_type: string, media_id: number ) => {
+  const data = {
+    items: [
+      { media_type: "movie", media_id: 550 },
+      { media_type: "movie", media_id: 244786 },
+      { media_type: "tv", media_id: 1396 }
+    ]
+  };
+  
+  const config = {
+    headers: {
+      "content-type": "application/json;charset=utf-8",
+      authorization: `Bearer ${rat}`
+    }
+  };
+  
+  axios.post(`https://api.themoviedb.org/4/list/${listId}/items`, data, config)
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+
+/*
+export const getAccessToken = async (requestToken: string) => {
+  const config: AxiosRequestConfig = {
+    url: "https://api.themoviedb.org/4/auth/access_token",
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      authorization: `Bearer ${rat}`,
     },
     data: JSON.stringify({ request_token: requestToken }),
   };

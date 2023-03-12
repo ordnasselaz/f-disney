@@ -1,16 +1,44 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
-import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { router } from "./utils/router";
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from "redux-persist/integration/react";
+import { persistAuthReducer } from "./utils/redux/reducer";
+import "./index.css";
+
+const persistConfig = {
+  key: 'root',
+  storage: storage,
+};
+
+const rootReducer = combineReducers({
+  login: persistReducer(persistConfig, persistAuthReducer),
+});
+
+export const store = configureStore({
+  reducer: rootReducer,
+});
+
+export type RootState = ReturnType<typeof rootReducer>;
+
+const persistor = persistStore(store);
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />    
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <RouterProvider router={router} />
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 );
 

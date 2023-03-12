@@ -4,23 +4,26 @@ import { StyledBackdrop } from "./styles";
 
 export type CardProps = {
   id?: number;
-  backdropPath?: string;
+  backdrop_path?: string;
   title?: string;
 };
 //concatenate start url to image
 
 export const Backdrop: React.FC<CardProps> = ({
   id,
-  backdropPath: image,
+  backdrop_path: image,
   title,
 }) => {
-  //rendere dinamico movie || serie
   return (
     <>
-      <Link to={`/movies/${id}`} >
+      <Link to={`/movies/${id}`}>
         <Card key={id}>
           <StyledBackdrop>
-            <CardMedia component="img" image={image} alt={title} />
+            <CardMedia
+              component="img"
+              image={`https://image.tmdb.org/t/p/original${image}`}
+              alt={title}
+            />
             <Typography>{title}</Typography>
           </StyledBackdrop>
         </Card>

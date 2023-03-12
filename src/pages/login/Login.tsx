@@ -5,25 +5,28 @@ import { getRequestToken } from "../../utils/httpsService";
 import { StyledLogin, StyledToolbar } from "./styles";
 import background1 from "../../utils/img/loginBackground1.jpeg";
 import background2 from "../../utils/img/loginBackground2.jpeg";
-
-
-type AuthUrlResponse = {
-  authUrl: string;
-};
+import { useDispatch } from "react-redux";
+import { setRequestToken } from "../../utils/redux/action";
 
 export const Login: React.FC = () => {
-  const [authUrl, setAuthUrl] = useState<AuthUrlResponse | undefined>(
-    undefined
-  );
+  const [authUrl, setAuthUrl] = useState<string | undefined>(undefined);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     try {
       const result = await getRequestToken();
-      setAuthUrl(result);
-      handleOpen();
+      if (result && result.requestToken) {
+        const authUrl = `https://www.themoviedb.org/auth/access?request_token=${result?.requestToken}`;
+        dispatch(setRequestToken(result?.requestToken));
+        setAuthUrl(authUrl);
+        handleOpen();
+      }else{
+        setAuthUrl('Incorrect Request Token');
+      }
+      //Save the token in the state of Redux
     } catch (error) {
       console.error(error);
     }
@@ -59,7 +62,9 @@ export const Login: React.FC = () => {
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             {authUrl ? (
-              <a href={authUrl.authUrl}>Click here to authorize</a>
+              <a href={authUrl}>
+                Click here to authorize <p>{authUrl}</p>
+              </a>
             ) : null}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
@@ -67,16 +72,8 @@ export const Login: React.FC = () => {
           </Typography>
         </Box>
       </Modal>
-      <CardMedia
-        component="img"
-        image={background1}
-        alt="Background1"
-      />
-      <CardMedia
-        component="img"
-        image={background2}
-        alt="Background2"
-      />
+      <CardMedia component="img" image={background1} alt="Background1" />
+      <CardMedia component="img" image={background2} alt="Background2" />
     </StyledLogin>
   );
 };
