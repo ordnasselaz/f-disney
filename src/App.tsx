@@ -10,25 +10,30 @@ import { clearListId, setAuthentication, setListId } from "./utils/redux/action"
 
 function Home() {
   const requestToken: string = useSelector(
-    (state: RootState) => state.login.request_token ?? ""
+    (state: RootState) => state.login.request_token
+  );
+  const accessToken: string | null = useSelector(
+    (state: RootState) => state.login.request_token
   );
   const dispatch = useDispatch();
+  
   useEffect(() => {
-    getAccessToken(requestToken).then((response) => {
-      const { account_id, access_token } = response;
-      const authData = { account_id, access_token };
-      dispatch(setAuthentication(authData));
-      //gestire la risposta
-      getAllList(account_id, access_token).then((response) => {
-        if (response[0] && response[0].id) {
-          dispatch(setListId(response[0].id));
-        }else{
-          dispatch(clearListId(null));
-        }
+    if (accessToken === null) {
+      getAccessToken(requestToken).then((response) => {
+        const { account_id, access_token } = response;
+        const authData = { account_id, access_token };
+        dispatch(setAuthentication(authData));
+        //gestire la risposta
+        getAllList(account_id, access_token).then((response) => {
+          if (response[0] && response[0].id) {
+            dispatch(setListId(response[0].id));
+          } else {
+            dispatch(clearListId(null));
+          }
+        });
+        // note that get all list may need to be run even if you don't run gett access token
       });
-      
-      // usa account_id e access_token come necessario
-    });
+    }
   }, []);
   return (
     <>

@@ -1,6 +1,4 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { useSelector } from "react-redux";
-import { RootState } from "..";
 import { CardProps } from "../componets/Backdrop/Backdrop";
 import { apiKey, ReadAccessToken as rat } from "./apiKey";
 
@@ -274,19 +272,20 @@ export const getAllList = async (accountid: string, accessToken: string) => {
 };
 
 // get list by Id
-export const getListById = async (listId: number) => {
+export const getListById = async (listId: number, accessToken: string) => {
   const settings = {
     url: `https://api.themoviedb.org/4/list/${listId}?page=1&api_key=${apiKey}`,
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
-      Authorization: `Bearer ${rat}`,
+      Authorization: `Bearer ${accessToken}`,
     },
-  };
-
-  axios(settings)
+  };  
+  return axios(settings)
     .then((response) => {
-      console.log(response);
+      if(response.data.results){
+      return response.data;}
+      else{console.log("La lista non esiste o è vuota")}
     })
     .catch((error) => {
       console.log(error);

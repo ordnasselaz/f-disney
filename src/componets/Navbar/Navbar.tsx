@@ -19,9 +19,11 @@ export const Navbar: React.FC = () => {
           <Typography variant="h6" component="div">
             SEARCH
           </Typography>
+          <StyledLink to={`/watchlist`}>
           <Typography variant="h6" component="div">
             LIST
           </Typography>
+          </StyledLink>
           <Typography variant="h6" component="div">
             ORIGINALS
           </Typography>

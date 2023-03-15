@@ -17,7 +17,7 @@ export const Backdrop: React.FC<CardProps> = ({
   return (
     <>
       <Link to={`/movies/${id}`}>
-        <Card key={id}>
+        <Card>
           <StyledBackdrop>
             <CardMedia
               component="img"
