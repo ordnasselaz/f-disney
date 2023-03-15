@@ -63,7 +63,7 @@ export const Login: React.FC = () => {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             {authUrl ? (
               <a href={authUrl}>
-                Click here to authorize <p>{authUrl}</p>
+                Click here to authorize
               </a>
             ) : null}
           </Typography>
@@ -77,23 +77,3 @@ export const Login: React.FC = () => {
     </StyledLogin>
   );
 };
-
-/*
-<Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={{style}}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {authUrl ? (
-              <a href={authUrl.authUrl}>Click here to authorize</a>
-            ) : null}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            To continue you must authorize the app to access TMDB
-          </Typography>
-        </Box>
-      </Modal>
-*/

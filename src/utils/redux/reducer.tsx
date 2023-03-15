@@ -3,13 +3,13 @@ export type Authentication = {
   access_token: string;
 }
 
-
-const initialState = {
-  request_token: null,
+export const initialState = {
+  request_token: "",
+  list_id: null,
   auth: {
-    account_id: null,
-    access_token: null,
-  }
+    account_id: "",
+    access_token: "",
+  }  
 };
 
 export function persistAuthReducer(state = initialState, action: any){
@@ -27,6 +27,16 @@ export function persistAuthReducer(state = initialState, action: any){
           access_token: action.payload.access_token
         }
       };
+      case 'AUTH/SET_LIST':
+        return {
+          ...state,
+          list_id: action.payload
+        };
+        case 'AUTH/CLEAR_LISTID':
+          return {
+            ...state,
+            list_id: null
+          }
     default:
       return state;
   }

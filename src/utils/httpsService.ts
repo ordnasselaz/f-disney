@@ -1,4 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "..";
 import { CardProps } from "../componets/Backdrop/Backdrop";
 import { apiKey, ReadAccessToken as rat } from "./apiKey";
 
@@ -108,8 +110,7 @@ const formatApiResponseMovie = (result: ApiResponseMovie): any => {
     castNames,
     directorName,
     videos: result.videos,
-    recommendations: result.recommendations
-
+    recommendations: result.recommendations,
   };
 };
 
@@ -118,7 +119,6 @@ export const getPopular = async (): Promise<CardProps[]> => {
     `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`
   );
   const movie = formatApiResponseHome(response.data.results);
-  console.log(movie);
   return movie;
 };
 
@@ -206,7 +206,6 @@ export const getRequestToken = async () => {
   try {
     const response = await axios(config);
     const requestToken: string = response.data.request_token;
-    console.log(requestToken);
     return { requestToken };
     //await requestAccessToken(requestToken);
   } catch (error) {
@@ -228,96 +227,103 @@ export const getAccessToken = async (requestToken: string) => {
   };
   try {
     const response = await axios(config);
-    return response.data; // restituisci solo i dati della risposta
+    return response.data;
   } catch (error) {
     console.error("error: " + error);
   }
+};
+
+//create list
+export const createList = async (accessToken: string) => {
+  const data = {
+    name: "My List",
+    iso_639_1: "en",
+  };
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json;charset=utf-8",
+    },
+  };
+
+  const response = await axios.post(
+    "https://api.themoviedb.org/4/list",
+    data,
+    config
+  );
+  return response.data;
 };
 
 //get all list
 
 export const getAllList = async (accountid: string, accessToken: string) => {
-  const settings = {
-    "url": `https://api.themoviedb.org/4/account/${accountid}/lists?page=1`,
-    "method": "GET",
-    "headers": {
-      "authorization": `Bearer ${accessToken}`
-    }
-  };
-  
-  axios(settings)
-    .then(response => {
-      console.log(response.data);
-    })
-    .catch(error => {
-      console.error(error);
-    });
-}
+  return axios({
+    url: `https://api.themoviedb.org/4/account/${accountid}/lists?page=1`,
+    method: "GET",
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+    },
+  })
+  .then((response) => {
+    return response.data.results;
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+};
 
 // get list by Id
-export const getListById = async (listId : number) => {
+export const getListById = async (listId: number) => {
   const settings = {
-    "url": `https://api.themoviedb.org/4/list/${listId}?page=1&api_key=${apiKey}`,
-    "method": "GET",
-    "headers": {
+    url: `https://api.themoviedb.org/4/list/${listId}?page=1&api_key=${apiKey}`,
+    method: "GET",
+    headers: {
       "Content-Type": "application/json;charset=utf-8",
-      "Authorization": `Bearer ${rat}`
-    }
+      Authorization: `Bearer ${rat}`,
+    },
   };
-  
+
   axios(settings)
-    .then(response => {
+    .then((response) => {
       console.log(response);
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
     });
-}
-
+};
 
 // add an item to the list
 
-export const addItems = async (listId: number, media_type: string, media_id: number ) => {
-  const data = {
-    items: [
-      { media_type: "movie", media_id: 550 },
-      { media_type: "movie", media_id: 244786 },
-      { media_type: "tv", media_id: 1396 }
-    ]
-  };
-  
+export type data = {
+  items: [
+    {
+      media_type: string;
+      media_id: number;
+    }
+  ];
+};
+
+export const addItem = async (
+  listId: number,
+  accessToken: string,
+  data: data
+) => {
+  console.log(accessToken);
+  console.log(listId);
   const config = {
     headers: {
       "content-type": "application/json;charset=utf-8",
-      authorization: `Bearer ${rat}`
-    }
+      authorization: `Bearer ${accessToken}`,
+    },
   };
-  
-  axios.post(`https://api.themoviedb.org/4/list/${listId}/items`, data, config)
-    .then(response => {
+
+  axios
+    .post(`https://api.themoviedb.org/4/list/${listId}/items`, data, config)
+    .then((response) => {
       console.log(response);
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
     });
-}
-
-/*
-export const getAccessToken = async (requestToken: string) => {
-  const config: AxiosRequestConfig = {
-    url: "https://api.themoviedb.org/4/auth/access_token",
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ${rat}`,
-    },
-    data: JSON.stringify({ request_token: requestToken }),
-  };
-  try {
-    const response = await axios(config);
-    console.log(response);
-  } catch (error) {
-    console.error("error: " + error);
-  }
 };
-*/

@@ -1,17 +1,17 @@
-import {
-  Box,
-  Button,
-  CardContent,
-  Collapse,
-  IconButton,
-} from "@mui/material";
+import { Box, Button, CardContent, Collapse, IconButton } from "@mui/material";
 import { IconButtonProps } from "@mui/material/IconButton";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Navbar } from "../../componets/Navbar";
-import { ApiResponseMovie, getMovieDetails } from "../../utils/httpsService";
+import {
+  addItem,
+  ApiResponseMovie,
+  createList,
+  getMovieDetails,
+  data,
+} from "../../utils/httpsService";
 import {
   Action,
   BackgroundImage,
@@ -24,6 +24,9 @@ import {
 } from "./styles";
 import PlayArrowRounded from "@mui/icons-material/PlayArrowRounded";
 import { Carusel } from "../../componets/Carusel";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../..";
+import { setListId } from "../../utils/redux/action";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -39,8 +42,22 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export const Movies: React.FC = () => {
+  const dispatch = useDispatch();
   const [movieDetails, setMovieDetails] = useState(false);
   const [recommended, setRecommended] = useState(false);
+  const [details, setDetails] = useState<ApiResponseMovie | undefined>(
+    undefined
+  );
+  const { id = "" } = useParams();
+  const movieId = parseInt(id);
+
+  const accessToken: string = useSelector(
+    (state: RootState) => state.login.auth.access_token ?? ""
+  );
+
+  let listId: number = useSelector(
+    (state: RootState) => state.login.list_id ?? null
+  );
 
   const handleExpandDetailsClick = () => {
     if (recommended) {
@@ -55,13 +72,22 @@ export const Movies: React.FC = () => {
     }
     setRecommended(!recommended);
   };
-
-  const { id = "" } = useParams();
-  const movieId = parseInt(id);
-  const [details, setDetails] = useState<ApiResponseMovie | undefined>(
-    undefined
-  );
-
+  const handleAddItem = () => {
+    const data: data = {
+      items: [{ media_type: "movie", media_id: movieId }],
+    };
+    console.log(listId);
+    if (listId === null) {
+      createList(accessToken).then((response) => {
+        console.log(response.id); // log per capire se la creazione è andata a buon fine
+        dispatch(setListId(response.id));
+        console.log(listId);
+        addItem(response.id, accessToken, data);
+      });
+    } else {
+      addItem(listId, accessToken, data);
+    }
+  };
   useEffect(() => {
     setMovieDetails(false);
     setRecommended(false);
@@ -98,6 +124,7 @@ export const Movies: React.FC = () => {
           <PlayButton startIcon={<PlayArrowRounded />}>Play</PlayButton>
           <PlayButton>Trailer</PlayButton>
           <Button
+            onClick={handleAddItem}
             startIcon={
               <AddCircleOutlineRoundedIcon sx={{ color: "#f9f9f9" }} />
             }
@@ -137,12 +164,18 @@ export const Movies: React.FC = () => {
             <Text>{overview}</Text>
           </Box>
           <Box>
-            <Text>Duration: {runtime}</Text>
-            <Text>Realse Date: {release_date}</Text>
-            <Text>Genre: {genres?.map((genre) => genre).join(", ")}</Text>
-            <Text>Classification: {adult ? "18+" : "16+"}</Text>
-            <Text>Director: {directorName}</Text>
-            <Text>Cast: {castNames ? castNames.join(", ") : ""}</Text>
+            <Text>Duration:</Text>
+            <Text>{runtime}</Text>
+            <Text>Realse Date:</Text>
+            <Text>{release_date}</Text>
+            <Text>Genre:</Text>
+            <Text>{genres?.map((genre) => genre).join(", ")}</Text>
+            <Text>Classification:</Text>
+            <Text>{adult ? "18+" : "16+"}</Text>
+            <Text>Director:</Text>
+            <Text>{directorName}</Text>
+            <Text>Cast:</Text>
+            <Text>{castNames ? castNames.join(", ") : ""}</Text>
           </Box>
         </CardContentDetails>
       </Collapse>

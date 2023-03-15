@@ -6,7 +6,7 @@ import { RootState } from ".";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAccessToken, getAllList } from "./utils/httpsService";
-import { setAuthentication } from "./utils/redux/action";
+import { clearListId, setAuthentication, setListId } from "./utils/redux/action";
 
 function Home() {
   const requestToken: string = useSelector(
@@ -17,16 +17,19 @@ function Home() {
     getAccessToken(requestToken).then((response) => {
       const { account_id, access_token } = response;
       const authData = { account_id, access_token };
-      getAllList(account_id, access_token).then((response) => {
-        console.log(response);
-      })
-    
       dispatch(setAuthentication(authData));
+      //gestire la risposta
+      getAllList(account_id, access_token).then((response) => {
+        if (response[0] && response[0].id) {
+          dispatch(setListId(response[0].id));
+        }else{
+          dispatch(clearListId(null));
+        }
+      });
+      
       // usa account_id e access_token come necessario
     });
   }, []);
-
-  /*dispatch(setAuthentication()));*/
   return (
     <>
       <Navbar />
