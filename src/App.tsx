@@ -38,9 +38,8 @@ function Home() {
   return (
     <>
       <Navbar />
-      <Carusel id="popular" />
-      <Carusel id="topRated" />
-      <Carusel id="action" />
+      <Carusel id="topRated" type="tv" />
+      <Carusel id="popular" type="movie" />
     </>
   );
 }

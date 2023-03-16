@@ -6,17 +6,18 @@ export type CardProps = {
   id?: number;
   backdrop_path?: string;
   title?: string;
+  type?: string;
 };
-//concatenate start url to image
 
 export const Backdrop: React.FC<CardProps> = ({
   id,
   backdrop_path: image,
   title,
+  type
 }) => {
   return (
     <>
-      <Link to={`/movies/${id}`}>
+      <Link to={`/${type}/${id}`}>
         <Card>
           <StyledBackdrop>
             <CardMedia

@@ -14,20 +14,16 @@ export const router = createBrowserRouter([
         element: <App />
     },
     {
-        path: "/movies",
+        path: "/movie",
         element: <></> //<Movies />
     },
     {
-        path: "/movies/:id",
-        element: <Movies />
-    },
-    {
-        path: "/series",
+        path: "/tv",
         element: <></> //<Series />
     },
     {
-        path: "/series/:id",
-        element: <></> //<Serie />
+        path: "/:type/:id",
+        element: <Movies />
     },
     {
         path: "/watchlist",

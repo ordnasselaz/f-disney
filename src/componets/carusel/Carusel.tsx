@@ -10,19 +10,21 @@ import { settings } from "./styles";
 type CaruselProps = {
   id?: string;
   list?: Array<CardProps>;
+  type?: string
 };
 
 export const Carusel: React.FC<CaruselProps> = ({
   id = "",
   list: initialList,
+  type=  ""
 }) => {
   const [list, setList] = useState<Array<CardProps>>([]);
-
   useEffect(() => {
     if (initialList && initialList.length > 0) {
       setList(initialList);
     } else if (id) {
-      fetchData(id)
+      fetchData(id, type)
+       // Aggiungi il parametro type nella chiamata a fetchData
         .then((response) => setList(response))
         .catch((error) => console.error(error));
     }
@@ -33,13 +35,13 @@ export const Carusel: React.FC<CaruselProps> = ({
   const filteredList = list.filter(
     (item) => item.backdrop_path && item.backdrop_path !== ""
   );
-
+    
   return (
     <>
       <Typography>{id}</Typography>
       <Slider {...settings}>
         {filteredList.map((movie: CardProps) => (
-          <Backdrop key={movie.id} {...movie} />
+          <Backdrop key={movie.id} {...movie} type={type} />
         ))}
       </Slider>
     </>

@@ -48,8 +48,9 @@ export const Movies: React.FC = () => {
   const [details, setDetails] = useState<ApiResponseMovie | undefined>(
     undefined
   );
-  const { id = "" } = useParams();
+  const { id = "", type = "" } = useParams();
   const movieId = parseInt(id);
+  console.log(type);
 
   const accessToken: string = useSelector(
     (state: RootState) => state.login.auth.access_token ?? ""
@@ -91,7 +92,7 @@ export const Movies: React.FC = () => {
   useEffect(() => {
     setMovieDetails(false);
     setRecommended(false);
-    getMovieDetails(movieId)
+    getMovieDetails(movieId, type)
       .then((response) => setDetails(response))
       .catch((error) => console.error(error));
     // è corretto?
@@ -154,7 +155,7 @@ export const Movies: React.FC = () => {
       </Action>
       <Collapse in={recommended} timeout="auto" unmountOnExit>
         <CardContent>
-          <Carusel list={recommendations?.results}></Carusel>
+          <Carusel list={recommendations?.results} type={type}></Carusel>
         </CardContent>
       </Collapse>
       <Collapse in={movieDetails} timeout="auto" unmountOnExit>
