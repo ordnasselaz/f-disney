@@ -1,8 +1,15 @@
-import { Box, Toolbar } from "@mui/material";
+import { AppBar, Box, Toolbar } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { Link } from 'react-router-dom';
 
-export const StyledNavbar = styled(Box)`
-font-family: sans-serif;`
+export const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+`;
+
+export const StyledAppBar = styled(AppBar)`
+
+`
 
 export const StyledFullToolbar = styled(Toolbar)`
 display: flex;

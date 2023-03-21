@@ -5,7 +5,7 @@ import { RootState } from "../..";
 import { Backdrop, CardProps } from "../../componets/Backdrop";
 import { Navbar } from "../../componets/Navbar";
 import { getListById } from "../../utils/httpsService";
-import { Container, ContentWrapper, NavbarWrapper } from "./styles";
+import { CardWrapper, Container, MainWrapper, NavbarWrapper } from "./styles";
 
 export const Watchlist: React.FC = () => {
   const listId = useSelector((state: RootState) => state.login.list_id);
@@ -18,29 +18,34 @@ export const Watchlist: React.FC = () => {
   });
 
   useEffect(() => {
-    getListById(listId, accessToken).then((response) => {
+    if(listId!== null){getListById(listId, accessToken).then((response) => {
       const { name, results } = response;
       const filteredResults = (results as CardProps[]).map((item) => ({
         id: item.id,
         backdrop_path: item.backdrop_path,
         title: item.title,
+        type: item.media_type,
       }));
       setList({ name, results: filteredResults });
-    });
+    });}else{
+      console.log(listId);
+    }
   }, []);
   return (
     <Container>
       <NavbarWrapper>
         <Navbar />
       </NavbarWrapper>
-      <ContentWrapper>
+      <MainWrapper>
         <Typography>{list.name}</Typography>
-        {list.results.map((movie: CardProps) => (
-          <Box sx={{width: 200}}>
-            <Backdrop key={movie.id} {...movie} />
-          </Box>
-        ))}
-      </ContentWrapper>
+        <CardWrapper>
+          {list.results.map((movie: CardProps) => (
+            <Box sx={{width: "200px", margin: "10px",}}>
+            <Backdrop key={movie.id} {...movie} type={movie.type} />
+            </Box>
+          ))}
+        </CardWrapper>
+      </MainWrapper>
     </Container>
   );
 };

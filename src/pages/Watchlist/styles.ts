@@ -1,19 +1,16 @@
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 
-export const Container = styled('div')({
-  display: 'grid',
-  gridTemplateRows: 'auto 1fr',
-  gridTemplateColumns: '1fr',
-  gridTemplateAreas: `
-    "navbar"
-    "content"
-  `,
-});
+export const Container = styled("div")`
+  display: flex;
+`;
 
-export const NavbarWrapper = styled('div')({
-  gridArea: 'navbar',
-});
+export const NavbarWrapper = styled("div")({});
 
-export const ContentWrapper = styled('div')({
-  gridArea: 'content',
-});
+export const MainWrapper = styled("div")`
+  margin-top: 5%;
+`;
+
+export const CardWrapper = styled("div")`
+  display: flex;
+  flex-wrap: nowrap;
+`;

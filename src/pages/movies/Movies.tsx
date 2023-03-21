@@ -1,6 +1,7 @@
 import { Box, Button, CardContent, Collapse, IconButton } from "@mui/material";
 import { IconButtonProps } from "@mui/material/IconButton";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
+import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -11,14 +12,17 @@ import {
   createList,
   getMovieDetails,
   data,
+  getListById,
 } from "../../utils/httpsService";
 import {
   Action,
+  AddButton,
   BackgroundImage,
   CardContentDetails,
   Control,
   Overview,
   PlayButton,
+  StyledCollapse,
   Text,
   Title,
 } from "./styles";
@@ -26,7 +30,7 @@ import PlayArrowRounded from "@mui/icons-material/PlayArrowRounded";
 import { Carusel } from "../../componets/Carusel";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../..";
-import { setListId } from "../../utils/redux/action";
+import { clearListId, setListId } from "../../utils/redux/action";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -50,15 +54,16 @@ export const Movies: React.FC = () => {
   );
   const { id = "", type = "" } = useParams();
   const movieId = parseInt(id);
-  console.log(type);
+  const [list, setList] = useState<Array<{ id: number; media_type: string }>>(
+    []
+  );
+  const [listed, setListed] = useState(false);
 
   const accessToken: string = useSelector(
-    (state: RootState) => state.login.auth.access_token ?? ""
+    (state: RootState) => state.login.auth.access_token
   );
 
-  let listId: number = useSelector(
-    (state: RootState) => state.login.list_id ?? null
-  );
+  let listId: number = useSelector((state: RootState) => state.login.list_id);
 
   const handleExpandDetailsClick = () => {
     if (recommended) {
@@ -73,31 +78,42 @@ export const Movies: React.FC = () => {
     }
     setRecommended(!recommended);
   };
+
   const handleAddItem = () => {
     const data: data = {
-      items: [{ media_type: "movie", media_id: movieId }],
+      items: [{ media_type: type, media_id: movieId }],
     };
-    console.log(listId);
     if (listId === null) {
       createList(accessToken).then((response) => {
-        console.log(response.id); // log per capire se la creazione è andata a buon fine
         dispatch(setListId(response.id));
-        console.log(listId);
         addItem(response.id, accessToken, data);
       });
     } else {
       addItem(listId, accessToken, data);
     }
   };
+
   useEffect(() => {
     setMovieDetails(false);
     setRecommended(false);
     getMovieDetails(movieId, type)
       .then((response) => setDetails(response))
       .catch((error) => console.error(error));
-    // è corretto?
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    //getlist doesn't value list
+    if (listId !== null) {
+      getListById(listId, accessToken)
+        .then((response) => {
+          setList(response.results);
+        })
+        .catch((error) => console.error(error));
+    }
   }, [movieId]);
+
+  useEffect(() => {
+    setListed(
+      list.some((movie) => movie.id === movieId && movie.media_type === type)
+    );
+  }, [list, movieId, type]);
 
   const {
     title,
@@ -124,12 +140,16 @@ export const Movies: React.FC = () => {
         <Control>
           <PlayButton startIcon={<PlayArrowRounded />}>Play</PlayButton>
           <PlayButton>Trailer</PlayButton>
-          <Button
+          <AddButton
             onClick={handleAddItem}
             startIcon={
-              <AddCircleOutlineRoundedIcon sx={{ color: "#f9f9f9" }} />
+              listed ? (
+                <CheckCircleOutlineRoundedIcon sx={{ color: "#f9f9f9" }} />
+              ) : (
+                <AddCircleOutlineRoundedIcon sx={{ color: "#f9f9f9" }} />
+              )
             }
-          ></Button>
+          ></AddButton>
         </Control>
         <Overview>
           <Text>{overview}</Text>
@@ -153,12 +173,12 @@ export const Movies: React.FC = () => {
           <Text>Details</Text>
         </ExpandMore>
       </Action>
-      <Collapse in={recommended} timeout="auto" unmountOnExit>
+      <StyledCollapse in={recommended} timeout="auto" unmountOnExit>
         <CardContent>
           <Carusel list={recommendations?.results} type={type}></Carusel>
         </CardContent>
-      </Collapse>
-      <Collapse in={movieDetails} timeout="auto" unmountOnExit>
+      </StyledCollapse>
+      <StyledCollapse in={movieDetails} timeout="auto" unmountOnExit>
         <CardContentDetails>
           <Box>
             <Text>{title}</Text>
@@ -179,7 +199,7 @@ export const Movies: React.FC = () => {
             <Text>{castNames ? castNames.join(", ") : ""}</Text>
           </Box>
         </CardContentDetails>
-      </Collapse>
+      </StyledCollapse>
     </>
   );
 };

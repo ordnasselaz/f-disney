@@ -16,7 +16,8 @@ type Cast = {
 
 type Crew = {
   name: string;
-  job: string;
+  job?: string;
+  known_for_department?: string
 };
 
 type Credits = {
@@ -83,6 +84,8 @@ export type ApiResponseMovie = {
   castNames: Cast[];
   videos: Videos;
   recommendations: Recommendations;
+  original_name?: string;
+  first_air_date?: string;
 };
 
 const formatApiResponseHome = (response: ApiResponseHome[]): CardProps[] => {
@@ -99,10 +102,10 @@ const formatApiResponseMovie = (result: ApiResponseMovie): any => {
   return {
     id: result.id,
     backdrop_path: result.backdrop_path,
-    title: result.title,
+    title: result.title || result.original_name,
     overview: result.overview,
     runtime: `${result.runtime} min`,
-    release_date: result.release_date,
+    release_date: result.release_date || result.first_air_date,
     genres: result.genres.map((genre) => genre.name),
     adult: result.adult,
     castNames,
@@ -116,7 +119,6 @@ export const getPopular = async (type: string): Promise<CardProps[]> => {
   const response = await axios.get(
     `https://api.themoviedb.org/3/${type}/popular?api_key=${apiKey}&language=en-US&page=1`
   );
-  console.log(response.data.results)
   const movie = formatApiResponseHome(response.data.results);
   return movie;
 };
@@ -146,7 +148,7 @@ export const getAction = async (type: string): Promise<CardProps[]> => {
 };
 
 const getDirectorName = (credits: Credits): string | undefined => {
-  const director = credits.crew.find((crew) => crew.job === "Director");
+  const director = credits.crew.find((crew) => crew.job === "Director" || crew.known_for_department === "Writing");
   return director?.name;
 };
 
@@ -154,8 +156,10 @@ const getCastNames = (credits: Credits, count: number): string[] => {
   return credits.cast.slice(0, count).map((cast) => cast.name);
 };
 
-export const getMovieDetails = async (movie_id: number, type: string): Promise<any> => {
-  console.log(type)
+export const getMovieDetails = async (
+  movie_id: number,
+  type: string
+): Promise<any> => {
   const response = await axios.get(
     `https://api.themoviedb.org/3/${type}/${movie_id}?api_key=${apiKey}&language=en-US&append_to_response=credits,videos,recommendations`
   );
@@ -219,13 +223,14 @@ export const getAccessToken = async (requestToken: string) => {
     url: "https://api.themoviedb.org/4/auth/access_token",
     method: "POST",
     headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ${rat}`,
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${rat}`,
     },
     data: JSON.stringify({ request_token: requestToken }),
   };
   try {
     const response = await axios(config);
+    
     return response.data;
   } catch (error) {
     console.error("error: " + error);
@@ -234,24 +239,28 @@ export const getAccessToken = async (requestToken: string) => {
 
 //create list
 export const createList = async (accessToken: string) => {
-  const data = {
-    name: "My List",
-    iso_639_1: "en",
-  };
+  try {
+    const data = {
+      name: "My List",
+      iso_639_1: "en",
+    };
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json;charset=utf-8",
-    },
-  };
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    };
 
-  const response = await axios.post(
-    "https://api.themoviedb.org/4/list",
-    data,
-    config
-  );
-  return response.data;
+    const response = await axios.post(
+      "https://api.themoviedb.org/4/list",
+      data,
+      config
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 //get all list
@@ -264,12 +273,12 @@ export const getAllList = async (accountid: string, accessToken: string) => {
       authorization: `Bearer ${accessToken}`,
     },
   })
-  .then((response) => {
-    return response.data.results;
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+    .then((response) => {
+      return response.data.results;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 // get list by Id
@@ -281,12 +290,14 @@ export const getListById = async (listId: number, accessToken: string) => {
       "Content-Type": "application/json;charset=utf-8",
       Authorization: `Bearer ${accessToken}`,
     },
-  };  
+  };
   return axios(settings)
     .then((response) => {
-      if(response.data.results){
-      return response.data;}
-      else{console.log("La lista non esiste o è vuota")}
+      if (response.data.results) {
+        return response.data;
+      } else {
+        console.log("La lista non esiste o è vuota");
+      }
     })
     .catch((error) => {
       console.log(error);
@@ -309,8 +320,6 @@ export const addItem = async (
   accessToken: string,
   data: data
 ) => {
-  console.log(accessToken);
-  console.log(listId);
   const config = {
     headers: {
       "content-type": "application/json;charset=utf-8",

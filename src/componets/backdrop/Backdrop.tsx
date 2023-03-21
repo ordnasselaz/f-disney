@@ -7,6 +7,7 @@ export type CardProps = {
   backdrop_path?: string;
   title?: string;
   type?: string;
+  media_type?: string;
 };
 
 export const Backdrop: React.FC<CardProps> = ({
