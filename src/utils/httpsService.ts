@@ -139,9 +139,20 @@ export const getUpcoming = async (type: string): Promise<CardProps[]> => {
   return movie;
 };
 
-export const getAction = async (type: string): Promise<CardProps[]> => {
+export const getLastest = async (type: string): Promise<CardProps[]> => {
   const response = await axios.get(
-    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=28`
+    `https://api.themoviedb.org/3/${type}/latest?api_key=${apiKey}&language=en-US`
+  );
+  const movie = formatApiResponseHome(response.data.results);
+  return movie;
+};
+
+export const getMoviesByGenre = async (
+  type: string,
+  genre?: string
+): Promise<CardProps[]> => {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=2&with_genres=${genre}`
   );
   const movie = formatApiResponseHome(response.data.results);
   return movie;
@@ -168,20 +179,22 @@ export const getMovieDetails = async (
 };
 
 export const apiCalls: {
-  [key: string]: (type: string) => Promise<CardProps[]>;
+  [key: string]: (type: string, genre?: string) => Promise<CardProps[]>;
 } = {
   popular: (type: string) => getPopular(type),
   topRated: (type: string) => getTopRated(type),
   upcoming: (type: string) => getUpcoming(type),
-  action: getAction,
+  lastest: (type: string) => getLastest(type),
+  genre: (type: string, genre?: string) => getMoviesByGenre(type, genre)
 };
 
 export const fetchData = async (
   id: string,
-  type: string
+  type: string,
+  genre?: string
 ): Promise<CardProps[]> => {
   try {
-    const response = await apiCalls[id](type); // Chiamata apiCalls[id]() con il parametro type selezionato
+    const response = await apiCalls[id](type, genre); // Chiamata apiCalls[id]() con il parametro type selezionato
     return response;
   } catch (error) {
     console.error(error);
@@ -336,3 +349,70 @@ export const addItem = async (
       console.log(error);
     });
 };
+
+
+/*
+export const getAction = async (type: string): Promise<CardProps[]> => {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=2&with_genres=28`
+  );
+  const movie = formatApiResponseHome(response.data.results);
+  return movie;
+};
+
+export const getAnimation = async (type: string): Promise<CardProps[]> => {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=16`
+  );
+  const movie = formatApiResponseHome(response.data.results);
+  return movie;
+};
+
+export const getComedy = async (type: string): Promise<CardProps[]> => {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=35`
+  );
+  const movie = formatApiResponseHome(response.data.results);
+  return movie;
+};
+
+export const getDocumentary = async (type: string): Promise<CardProps[]> => {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=99`
+  );
+  const movie = formatApiResponseHome(response.data.results);
+  return movie;
+};
+
+export const getDrama = async (type: string): Promise<CardProps[]> => {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=18`
+  );
+  const movie = formatApiResponseHome(response.data.results);
+  return movie;
+};
+
+export const getFantasy = async (type: string): Promise<CardProps[]> => {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=14`
+  );
+  const movie = formatApiResponseHome(response.data.results);
+  return movie;
+};
+
+export const getThriller = async (type: string): Promise<CardProps[]> => {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=14`
+  );
+  const movie = formatApiResponseHome(response.data.results);
+  return movie;
+};
+
+export const getHorror = async (type: string): Promise<CardProps[]> => {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=27`
+  );
+  const movie = formatApiResponseHome(response.data.results);
+  return movie;
+};
+*/

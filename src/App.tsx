@@ -1,6 +1,6 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Carusel } from "./componets/Carusel";
+
 import { Navbar } from "./componets/Navbar";
 import { RootState } from ".";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import {
 } from "./utils/redux/action";
 import { Box } from "@mui/material";
 import { Container } from "./styles";
+import { Carousel } from "./componets/Carusel";
 
 function Home() {
   const requestToken: string = useSelector(
@@ -45,9 +46,10 @@ function Home() {
     <Container>
       <Navbar />
       <Box sx={{ margin: 10 }}>
-        <Carusel id="topRated" type="tv" />
-        <Carusel id="popular" type="movie" />
-        <Carusel id="topRated" type="movie" />
+        <Carousel id="topRated" type="tv" />
+        <Carousel id="popular" type="movie" />
+        <Carousel id="topRated" type="movie" />
+        <Carousel id="action" type="movie" />
       </Box>
     </Container>
   );

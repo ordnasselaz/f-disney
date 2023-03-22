@@ -18,16 +18,18 @@ export const Watchlist: React.FC = () => {
   });
 
   useEffect(() => {
-    if(listId!== null){getListById(listId, accessToken).then((response) => {
-      const { name, results } = response;
-      const filteredResults = (results as CardProps[]).map((item) => ({
-        id: item.id,
-        backdrop_path: item.backdrop_path,
-        title: item.title,
-        type: item.media_type,
-      }));
-      setList({ name, results: filteredResults });
-    });}else{
+    if (listId !== null) {
+      getListById(listId, accessToken).then((response) => {
+        const { name, results } = response;
+        const filteredResults = (results as CardProps[]).map((item) => ({
+          id: item.id,
+          backdrop_path: item.backdrop_path,
+          title: item.title,
+          type: item.media_type,
+        }));
+        setList({ name, results: filteredResults });
+      });
+    } else {
       console.log(listId);
     }
   }, []);
@@ -40,8 +42,8 @@ export const Watchlist: React.FC = () => {
         <Typography>{list.name}</Typography>
         <CardWrapper>
           {list.results.map((movie: CardProps) => (
-            <Box sx={{width: "200px", margin: "10px",}}>
-            <Backdrop key={movie.id} {...movie} type={movie.type} />
+            <Box key={movie.id} sx={{ width: "200px", margin: "10px" }}>
+              <Backdrop {...movie} type={movie.type} />
             </Box>
           ))}
         </CardWrapper>

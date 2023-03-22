@@ -13,7 +13,7 @@ type CaruselProps = {
   type?: string
 };
 
-export const Carusel: React.FC<CaruselProps> = ({
+export const Carousel: React.FC<CaruselProps> = ({
   id = "",
   list: initialList,
   type=  ""
