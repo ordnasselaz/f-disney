@@ -87,9 +87,11 @@ export const Movie: React.FC = () => {
       createList(accessToken).then((response) => {
         dispatch(setListId(response.id));
         addItem(response.id, accessToken, data);
+        setListed(true);
       });
     } else {
       addItem(listId, accessToken, data);
+      setListed(true);
     }
   };
 

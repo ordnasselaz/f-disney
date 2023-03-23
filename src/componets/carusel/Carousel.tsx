@@ -4,8 +4,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { fetchData } from "../../utils/httpsService";
 import { CardProps, Backdrop } from "../Backdrop";
-import { settings, Text } from "./styles";
+import { settings, StyledSlide, Text } from "./styles";
 import { genres } from "../../utils/genres";
+import { Button } from "@mui/material";
 
 type CaruselProps = {
   id?: string;
@@ -37,7 +38,6 @@ export const Carousel: React.FC<CaruselProps> = ({
       }
     } else if (id) {
       fetchData(id, type)
-        // Aggiungi il parametro type nella chiamata a fetchData
         .then((response) => setList(response))
         .catch((error) => console.error(error));
     }
@@ -52,11 +52,13 @@ export const Carousel: React.FC<CaruselProps> = ({
   return (
     <>
       <Text>{id}</Text>
-      <Slider {...settings}>
-        {filteredList.map((movie: CardProps) => (
-          <Backdrop key={movie.id} {...movie} type={type} />
-        ))}
-      </Slider>
+      <StyledSlide>
+        <Slider {...settings}>
+          {filteredList.map((movie: CardProps) => (
+            <Backdrop key={movie.id} {...movie} type={type} />
+          ))}
+        </Slider>
+      </StyledSlide>
     </>
   );
 };

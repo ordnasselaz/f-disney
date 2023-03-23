@@ -149,10 +149,11 @@ export const getLastest = async (type: string): Promise<CardProps[]> => {
 
 export const getMoviesByGenre = async (
   type: string,
-  genre?: string
+  genre?: string,
+  page?: string
 ): Promise<CardProps[]> => {
   const response = await axios.get(
-    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=2&with_genres=${genre}`
+    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=${page}&with_genres=${genre}`
   );
   const movie = formatApiResponseHome(response.data.results);
   return movie;
@@ -181,7 +182,8 @@ export const getMovieDetails = async (
 export const fetchData = async (
   id: string,
   type: string,
-  genre?: string
+  genre?: string,
+  page = 1 // imposto il valore predefinito della pagina a 1
 ): Promise<CardProps[]> => {
   try {
     let response: any;
@@ -199,7 +201,7 @@ export const fetchData = async (
         response = await getLastest(type);
         break;
       case 'genre':
-        response = await getMoviesByGenre(type, genre);
+        response = await getMoviesByGenre(type, genre, page.toString());
         break;
       default:
         response = [];
@@ -211,6 +213,7 @@ export const fetchData = async (
     return [];
   }
 };
+
 // login
 // Generate a new request token
 // Send the user to TMDb asking the user to approve the token

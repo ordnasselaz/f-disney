@@ -8,10 +8,10 @@ export const BackgroundImage = styled(Box)`
   top: 8%;
   transition: opacity 200ms ease 0s;
   width: 100%;
-  z-index: -3;
+  z-index: -1;
   background-size: contain; 
   background-repeat: no-repeat;
-  background-position: right;
+  background-position: right;  
 `;
 
 export const Control = styled(Box)`
@@ -31,7 +31,7 @@ export const PlayButton = styled(Button)`
 `;
 
 export const AddButton = styled(Button)`
-  font-size: large;
+  font-size: x-large;
   color: "#f9f9f9";
 `
 

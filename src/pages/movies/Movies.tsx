@@ -1,5 +1,6 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
 import { Backdrop, CardProps } from "../../componets/Backdrop";
 import { Navbar } from "../../componets/Navbar";
@@ -12,25 +13,31 @@ export const Movies: React.FC = () => {
   const [list, setList] = useState<Array<CardProps>>([]);
   const { movies } = useParams<{ movies: string }>();
   const type = movies === "movies" ? "movie" : "tv";
+  const [page, setPage] = useState<number>(1);
 
   const handleGenreSelect = (value: string | null) => {
     if (value !== null) {
+      console.log(value);
       setSelectedGenre(value);
+      setList([]);
+      setPage(1);
     }
   };
-  
+
   useEffect(() => {
     if (selectedGenre) {
-      let genre = genres.find((genre) => genre.name === selectedGenre);
+      const genre = genres.find((genre) => genre.name === selectedGenre);
+      console.log("genre.name", genre?.name);
       if (genre) {
-        fetchData("genre", "movie", genre.id)
+        fetchData("genre", type, genre.id, page)
           .then((response) => {
-            setList(response);
+            setList(list.concat(response));
           })
           .catch((error) => console.error(error));
       }
     }
-  }, [selectedGenre]);
+  }, [page, selectedGenre]);
+
   return (
     <>
       <Navbar />
@@ -43,17 +50,28 @@ export const Movies: React.FC = () => {
             width: 300,
             backgroundColor: "rgba(182, 182, 182, 0.2)",
             borderRadius: "22px",
+            marginLeft: "2%",
           }}
           onChange={(event, value) => handleGenreSelect(value)}
           renderInput={(params) => <TextField {...params} label="Movie" />}
+          
         />
-        <BackdropContainer>
-          {list.map((movie: CardProps) => (
-            <Box key={movie.id} sx={{ width: "250px", margin: "10px" }}>
-              <Backdrop {...movie} type={type} />
-            </Box>
-          ))}
-        </BackdropContainer>
+        <InfiniteScroll
+          dataLength={list.length}
+          next={() => {
+            setPage(page + 1);
+          }}
+          hasMore={true}
+          loader={<h4>Loading...</h4>}
+        >
+          <BackdropContainer>
+            {list.map((movie: CardProps) => (
+              <Box key={movie.id} sx={{ width: "250px", marginTop: "2%", marginX: "1%"}}>
+                <Backdrop {...movie} type={type} />
+              </Box>
+            ))}
+          </BackdropContainer>
+        </InfiniteScroll>
       </Main>
     </>
   );

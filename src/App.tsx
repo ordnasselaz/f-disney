@@ -1,6 +1,5 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 import { Navbar } from "./componets/Navbar";
 import { RootState } from ".";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,8 +10,7 @@ import {
   setAuthentication,
   setListId,
 } from "./utils/redux/action";
-import { Box } from "@mui/material";
-import { Container } from "./styles";
+import { Container, StyledMain, StyledNavbar } from "./styles";
 import { Carousel } from "./componets/Carusel";
 
 function Home() {
@@ -44,13 +42,15 @@ function Home() {
   }, []);
   return (
     <Container>
-      <Navbar />
-      <Box sx={{ margin: 10 }}>
+      <StyledNavbar>
+        <Navbar />
+      </StyledNavbar>
+      <StyledMain >
         <Carousel id="topRated" type="movie" />
-        <Carousel id="popular" type="tv" />
+        <Carousel id="topRated" type="tv" />
         <Carousel id="popular" type="movie" />
         <Carousel id="genre" genre="Drama" type="movie" />
-      </Box>
+      </StyledMain>
     </Container>
   );
 }
