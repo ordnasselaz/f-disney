@@ -178,23 +178,33 @@ export const getMovieDetails = async (
   return movie;
 };
 
-export const apiCalls: {
-  [key: string]: (type: string, genre?: string) => Promise<CardProps[]>;
-} = {
-  popular: (type: string) => getPopular(type),
-  topRated: (type: string) => getTopRated(type),
-  upcoming: (type: string) => getUpcoming(type),
-  lastest: (type: string) => getLastest(type),
-  genre: (type: string, genre?: string) => getMoviesByGenre(type, genre)
-};
-
 export const fetchData = async (
   id: string,
   type: string,
   genre?: string
 ): Promise<CardProps[]> => {
   try {
-    const response = await apiCalls[id](type, genre); // Chiamata apiCalls[id]() con il parametro type selezionato
+    let response: any;
+    switch (id) {
+      case 'popular':
+        response = await getPopular(type);
+        break;
+      case 'topRated':
+        response = await getTopRated(type);
+        break;
+      case 'upcoming':
+        response = await getUpcoming(type);
+        break;
+      case 'lastest':
+        response = await getLastest(type);
+        break;
+      case 'genre':
+        response = await getMoviesByGenre(type, genre);
+        break;
+      default:
+        response = [];
+        break;
+    }
     return response;
   } catch (error) {
     console.error(error);
@@ -416,3 +426,28 @@ export const getHorror = async (type: string): Promise<CardProps[]> => {
   return movie;
 };
 */
+
+/*
+export const apiCalls: {
+  [key: string]: (type: string, genre?: string) => Promise<CardProps[]>;
+} = {
+  popular: (type: string) => getPopular(type),
+  topRated: (type: string) => getTopRated(type),
+  upcoming: (type: string) => getUpcoming(type),
+  lastest: (type: string) => getLastest(type),
+  genre: (type: string, genre?: string) => getMoviesByGenre(type, genre)
+};
+
+export const fetchData = async (
+  id: string,
+  type: string,
+  genre?: string
+): Promise<CardProps[]> => {
+  try {
+    const response = await apiCalls[id](type, genre); // Chiamata apiCalls[id]() con il parametro type selezionato
+    return response;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};*/

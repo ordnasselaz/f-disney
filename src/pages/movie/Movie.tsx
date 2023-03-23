@@ -1,4 +1,4 @@
-import { Box, Button, CardContent, Collapse, IconButton } from "@mui/material";
+import { Box, CardContent, IconButton } from "@mui/material";
 import { IconButtonProps } from "@mui/material/IconButton";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
@@ -129,13 +129,13 @@ export const Movie: React.FC = () => {
   } = details || {};
   return (
     <>
-      <BackgroundImage
+      <BackgroundImage 
         sx={{
           backgroundImage: `url(https://image.tmdb.org/t/p/w1280${backdrop_path})`,
         }}
       ></BackgroundImage>
       <Navbar></Navbar>
-      <CardContent>
+      <CardContent sx={{marginTop: "12%"}}>
         <Title>{title}</Title>
         <Control>
           <PlayButton startIcon={<PlayArrowRounded />}>Play</PlayButton>

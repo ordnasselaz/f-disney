@@ -9,9 +9,9 @@ export const BackgroundImage = styled(Box)`
   transition: opacity 200ms ease 0s;
   width: 100%;
   z-index: -3;
-  background-size: contain; /* o cover */
+  background-size: contain; 
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: right;
 `;
 
 export const Control = styled(Box)`
@@ -48,7 +48,7 @@ export const Title = styled(Typography)`
 `;
 
 export const Action = styled(Box)`
- margin-top: 20vh;
+ 
   border-bottom: 2px solid rgba(249, 249, 249, 0.2);
   display: flex;
   margin-bottom: 10px;

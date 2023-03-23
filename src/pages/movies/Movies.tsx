@@ -18,6 +18,7 @@ export const Movies: React.FC = () => {
       setSelectedGenre(value);
     }
   };
+  
   useEffect(() => {
     if (selectedGenre) {
       let genre = genres.find((genre) => genre.name === selectedGenre);
@@ -48,7 +49,7 @@ export const Movies: React.FC = () => {
         />
         <BackdropContainer>
           {list.map((movie: CardProps) => (
-            <Box key={movie.id} sx={{ width: "200px", margin: "10px" }}>
+            <Box key={movie.id} sx={{ width: "250px", margin: "10px" }}>
               <Backdrop {...movie} type={type} />
             </Box>
           ))}

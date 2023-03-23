@@ -4,27 +4,40 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { fetchData } from "../../utils/httpsService";
 import { CardProps, Backdrop } from "../Backdrop";
-import { Typography } from "@mui/material";
-import { settings } from "./styles";
+import { settings, Text } from "./styles";
+import { genres } from "../../utils/genres";
 
 type CaruselProps = {
   id?: string;
   list?: Array<CardProps>;
-  type?: string
+  type?: string;
+  genre?: string;
 };
 
 export const Carousel: React.FC<CaruselProps> = ({
-  id = "",
+  id,
   list: initialList,
-  type=  ""
+  type = "",
+  genre,
 }) => {
   const [list, setList] = useState<Array<CardProps>>([]);
+  console.log(genre);
   useEffect(() => {
     if (initialList && initialList.length > 0) {
       setList(initialList);
+    } else if (genre) {
+      let gen = genres.find((gen) => gen.name === genre);
+      console.log(gen);
+      if (gen) {
+        fetchData("genre", type, gen.id)
+          .then((response) => {
+            setList(response);
+          })
+          .catch((error) => console.error(error));
+      }
     } else if (id) {
       fetchData(id, type)
-       // Aggiungi il parametro type nella chiamata a fetchData
+        // Aggiungi il parametro type nella chiamata a fetchData
         .then((response) => setList(response))
         .catch((error) => console.error(error));
     }
@@ -35,10 +48,10 @@ export const Carousel: React.FC<CaruselProps> = ({
   const filteredList = list.filter(
     (item) => item.backdrop_path && item.backdrop_path !== ""
   );
-    
+
   return (
     <>
-      <Typography>{id}</Typography>
+      <Text>{id}</Text>
       <Slider {...settings}>
         {filteredList.map((movie: CardProps) => (
           <Backdrop key={movie.id} {...movie} type={type} />

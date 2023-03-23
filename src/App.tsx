@@ -46,10 +46,10 @@ function Home() {
     <Container>
       <Navbar />
       <Box sx={{ margin: 10 }}>
-        <Carousel id="topRated" type="tv" />
-        <Carousel id="popular" type="movie" />
         <Carousel id="topRated" type="movie" />
-        <Carousel id="action" type="movie" />
+        <Carousel id="popular" type="tv" />
+        <Carousel id="popular" type="movie" />
+        <Carousel id="genre" genre="Drama" type="movie" />
       </Box>
     </Container>
   );

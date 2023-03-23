@@ -1,8 +1,15 @@
 import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 
 export const StyledCarusel = styled('div')`
 margin: 5%;
 `
+
+export const Text = styled(Typography)`
+
+`
+
+
 export const settings = {
   dots: false,
   infinite: false,

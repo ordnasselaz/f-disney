@@ -42,7 +42,7 @@ export const Watchlist: React.FC = () => {
         <Typography>{list.name}</Typography>
         <CardWrapper>
           {list.results.map((movie: CardProps) => (
-            <Box key={movie.id} sx={{ width: "200px", margin: "10px" }}>
+            <Box key={movie.id} sx={{ width: "250px", margin: "10px" }}>
               <Backdrop {...movie} type={movie.type} />
             </Box>
           ))}
