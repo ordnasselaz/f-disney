@@ -22,13 +22,11 @@ export const Carousel: React.FC<CaruselProps> = ({
   genre,
 }) => {
   const [list, setList] = useState<Array<CardProps>>([]);
-  console.log(genre);
   useEffect(() => {
     if (initialList && initialList.length > 0) {
       setList(initialList);
     } else if (genre) {
       let gen = genres.find((gen) => gen.name === genre);
-      console.log(gen);
       if (gen) {
         fetchData("genre", type, gen.id)
           .then((response) => {
@@ -41,7 +39,6 @@ export const Carousel: React.FC<CaruselProps> = ({
         .then((response) => setList(response))
         .catch((error) => console.error(error));
     }
-    // è corretto?
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

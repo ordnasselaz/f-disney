@@ -17,7 +17,7 @@ type Cast = {
 type Crew = {
   name: string;
   job?: string;
-  known_for_department?: string
+  known_for_department?: string;
 };
 
 type Credits = {
@@ -160,7 +160,9 @@ export const getMoviesByGenre = async (
 };
 
 const getDirectorName = (credits: Credits): string | undefined => {
-  const director = credits.crew.find((crew) => crew.job === "Director" || crew.known_for_department === "Writing");
+  const director = credits.crew.find(
+    (crew) => crew.job === "Director" || crew.known_for_department === "Writing"
+  );
   return director?.name;
 };
 
@@ -183,24 +185,24 @@ export const fetchData = async (
   id: string,
   type: string,
   genre?: string,
-  page = 1 // imposto il valore predefinito della pagina a 1
+  page = 1
 ): Promise<CardProps[]> => {
   try {
     let response: any;
     switch (id) {
-      case 'popular':
+      case "popular":
         response = await getPopular(type);
         break;
-      case 'topRated':
+      case "topRated":
         response = await getTopRated(type);
         break;
-      case 'upcoming':
+      case "upcoming":
         response = await getUpcoming(type);
         break;
-      case 'lastest':
+      case "lastest":
         response = await getLastest(type);
         break;
-      case 'genre':
+      case "genre":
         response = await getMoviesByGenre(type, genre, page.toString());
         break;
       default:
@@ -256,7 +258,7 @@ export const getAccessToken = async (requestToken: string) => {
   };
   try {
     const response = await axios(config);
-    
+
     return response.data;
   } catch (error) {
     console.error("error: " + error);
@@ -320,9 +322,10 @@ export const getListById = async (listId: number, accessToken: string) => {
   return axios(settings)
     .then((response) => {
       if (response.data.results) {
+        console.log(response.data.results);
         return response.data;
       } else {
-        console.log("La lista non esiste o è vuota");
+        console.log("The list does not exist or is empty");
       }
     })
     .catch((error) => {
@@ -362,95 +365,3 @@ export const addItem = async (
       console.log(error);
     });
 };
-
-
-/*
-export const getAction = async (type: string): Promise<CardProps[]> => {
-  const response = await axios.get(
-    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=2&with_genres=28`
-  );
-  const movie = formatApiResponseHome(response.data.results);
-  return movie;
-};
-
-export const getAnimation = async (type: string): Promise<CardProps[]> => {
-  const response = await axios.get(
-    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=16`
-  );
-  const movie = formatApiResponseHome(response.data.results);
-  return movie;
-};
-
-export const getComedy = async (type: string): Promise<CardProps[]> => {
-  const response = await axios.get(
-    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=35`
-  );
-  const movie = formatApiResponseHome(response.data.results);
-  return movie;
-};
-
-export const getDocumentary = async (type: string): Promise<CardProps[]> => {
-  const response = await axios.get(
-    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=99`
-  );
-  const movie = formatApiResponseHome(response.data.results);
-  return movie;
-};
-
-export const getDrama = async (type: string): Promise<CardProps[]> => {
-  const response = await axios.get(
-    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=18`
-  );
-  const movie = formatApiResponseHome(response.data.results);
-  return movie;
-};
-
-export const getFantasy = async (type: string): Promise<CardProps[]> => {
-  const response = await axios.get(
-    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=14`
-  );
-  const movie = formatApiResponseHome(response.data.results);
-  return movie;
-};
-
-export const getThriller = async (type: string): Promise<CardProps[]> => {
-  const response = await axios.get(
-    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=14`
-  );
-  const movie = formatApiResponseHome(response.data.results);
-  return movie;
-};
-
-export const getHorror = async (type: string): Promise<CardProps[]> => {
-  const response = await axios.get(
-    `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=27`
-  );
-  const movie = formatApiResponseHome(response.data.results);
-  return movie;
-};
-*/
-
-/*
-export const apiCalls: {
-  [key: string]: (type: string, genre?: string) => Promise<CardProps[]>;
-} = {
-  popular: (type: string) => getPopular(type),
-  topRated: (type: string) => getTopRated(type),
-  upcoming: (type: string) => getUpcoming(type),
-  lastest: (type: string) => getLastest(type),
-  genre: (type: string, genre?: string) => getMoviesByGenre(type, genre)
-};
-
-export const fetchData = async (
-  id: string,
-  type: string,
-  genre?: string
-): Promise<CardProps[]> => {
-  try {
-    const response = await apiCalls[id](type, genre); // Chiamata apiCalls[id]() con il parametro type selezionato
-    return response;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-};*/

@@ -1,5 +1,6 @@
-import { Card, CardMedia } from "@mui/material";
+import { CardMedia } from "@mui/material";
 import { Link } from "react-router-dom";
+import { StyledLink } from "../Navbar/styles";
 import { StyledBackdrop, Text } from "./styles";
 
 export type CardProps = {
@@ -8,6 +9,7 @@ export type CardProps = {
   title?: string;
   type?: string;
   media_type?: string;
+  name?: string;
 };
 
 export const Backdrop: React.FC<CardProps> = ({
@@ -15,19 +17,20 @@ export const Backdrop: React.FC<CardProps> = ({
   backdrop_path: image,
   title,
   type,
+  name,
 }) => {
   return (
     <>
-      <Link to={`/${type}/${id}`}>
+      <StyledLink to={`/${type}/${id}`}>
         <StyledBackdrop>
           <CardMedia
             component="img"
             image={`https://image.tmdb.org/t/p/original${image}`}
             alt={title}
           />
-          <Text>{title}</Text>
+          <Text>{title ? title : name}</Text>
         </StyledBackdrop>
-      </Link>
+      </StyledLink>
     </>
   );
 };

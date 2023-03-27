@@ -12,5 +12,5 @@ export const MainWrapper = styled("div")`
 
 export const CardWrapper = styled("div")`
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 `;

@@ -28,7 +28,6 @@ function Home() {
         const { account_id, access_token } = response;
         const authData = { account_id, access_token };
         dispatch(setAuthentication(authData));
-        //gestire la risposta
         getAllList(account_id, access_token).then((response) => {
           if (response[0] && response[0].id) {
             dispatch(setListId(response[0].id));
@@ -36,7 +35,6 @@ function Home() {
             dispatch(clearListId(null));
           }
         });
-        // note that get all list may need to be run even if you don't run get access token
       });
     }
   }, []);
@@ -45,7 +43,7 @@ function Home() {
       <StyledNavbar>
         <Navbar />
       </StyledNavbar>
-      <StyledMain >
+      <StyledMain>
         <Carousel id="topRated" type="movie" />
         <Carousel id="topRated" type="tv" />
         <Carousel id="popular" type="movie" />

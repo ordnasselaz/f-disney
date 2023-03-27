@@ -23,10 +23,9 @@ export const Login: React.FC = () => {
         dispatch(setRequestToken(result?.requestToken));
         setAuthUrl(authUrl);
         handleOpen();
-      }else{
-        setAuthUrl('Incorrect Request Token');
+      } else {
+        setAuthUrl("Incorrect Request Token");
       }
-      //Save the token in the state of Redux
     } catch (error) {
       console.error(error);
     }
@@ -61,11 +60,7 @@ export const Login: React.FC = () => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            {authUrl ? (
-              <a href={authUrl}>
-                Click here to authorize
-              </a>
-            ) : null}
+            {authUrl ? <a href={authUrl}>Click here to authorize</a> : null}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             To continue you must authorize the app to access TMDB

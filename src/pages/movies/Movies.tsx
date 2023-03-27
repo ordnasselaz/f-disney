@@ -54,7 +54,6 @@ export const Movies: React.FC = () => {
           }}
           onChange={(event, value) => handleGenreSelect(value)}
           renderInput={(params) => <TextField {...params} label="Movie" />}
-          
         />
         <InfiniteScroll
           dataLength={list.length}
@@ -66,7 +65,10 @@ export const Movies: React.FC = () => {
         >
           <BackdropContainer>
             {list.map((movie: CardProps) => (
-              <Box key={movie.id} sx={{ width: "250px", marginTop: "2%", marginX: "1%"}}>
+              <Box
+                key={movie.id}
+                sx={{ width: "250px", marginTop: "2%", marginX: "1%" }}
+              >
                 <Backdrop {...movie} type={type} />
               </Box>
             ))}

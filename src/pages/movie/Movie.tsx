@@ -39,7 +39,7 @@ interface ExpandMoreProps extends IconButtonProps {
 const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
-})(({ theme, expand }) => ({
+})(({ theme }) => ({
   transition: theme.transitions.create("transform", {
     duration: theme.transitions.duration.shortest,
   }),
@@ -49,6 +49,7 @@ export const Movie: React.FC = () => {
   const dispatch = useDispatch();
   const [movieDetails, setMovieDetails] = useState(false);
   const [recommended, setRecommended] = useState(false);
+  const [episodes, setEpisodes] = useState(false);
   const [details, setDetails] = useState<ApiResponseMovie | undefined>(
     undefined
   );
@@ -65,6 +66,33 @@ export const Movie: React.FC = () => {
 
   let listId: number = useSelector((state: RootState) => state.login.list_id);
 
+  function handleButtonClick(buttonName: string) {
+    if (buttonName === "movieDetails") {
+      setMovieDetails(true);
+      setRecommended(false);
+      setEpisodes(false);
+    } else if (buttonName === "recommended") {
+      setMovieDetails(false);
+      setRecommended(true);
+      setEpisodes(false);
+    } else if (buttonName === "episodes") {
+      setMovieDetails(false);
+      setRecommended(false);
+      setEpisodes(true);
+    }
+  }
+  /*
+  const handleExpandEpisodes = () => {
+    if (episodes) {
+      if (recommended) {
+        setRecommended(!recommended);
+      } else if (movieDetails) {
+        setMovieDetails(!movieDetails);
+      }
+    }
+    setEpisodes(!episodes);
+  };
+
   const handleExpandDetailsClick = () => {
     if (recommended) {
       setRecommended(!recommended);
@@ -78,7 +106,7 @@ export const Movie: React.FC = () => {
     }
     setRecommended(!recommended);
   };
-
+*/
   const handleAddItem = () => {
     const data: data = {
       items: [{ media_type: type, media_id: movieId }],
@@ -101,7 +129,6 @@ export const Movie: React.FC = () => {
     getMovieDetails(movieId, type)
       .then((response) => setDetails(response))
       .catch((error) => console.error(error));
-    //getlist doesn't value list
     if (listId !== null) {
       getListById(listId, accessToken)
         .then((response) => {
@@ -116,7 +143,6 @@ export const Movie: React.FC = () => {
       list.some((movie) => movie.id === movieId && movie.media_type === type)
     );
   }, [list, movieId, type]);
-
   const {
     title,
     overview,
@@ -131,13 +157,15 @@ export const Movie: React.FC = () => {
   } = details || {};
   return (
     <>
-      <BackgroundImage 
-        sx={{
-          backgroundImage: `url(https://image.tmdb.org/t/p/w1280${backdrop_path})`,
-        }}
-      ></BackgroundImage>
+      {backdrop_path && (
+        <BackgroundImage
+          sx={{
+            backgroundImage: `url(https://image.tmdb.org/t/p/w1280${backdrop_path})`,
+          }}
+        ></BackgroundImage>
+      )}
       <Navbar></Navbar>
-      <CardContent sx={{marginTop: "12%"}}>
+      <CardContent sx={{ marginTop: "12%" }}>
         <Title>{title}</Title>
         <Control>
           <PlayButton startIcon={<PlayArrowRounded />}>Play</PlayButton>
@@ -146,9 +174,13 @@ export const Movie: React.FC = () => {
             onClick={handleAddItem}
             startIcon={
               listed ? (
-                <CheckCircleOutlineRoundedIcon sx={{ color: "#f9f9f9" }} />
+                <CheckCircleOutlineRoundedIcon
+                  sx={{ color: "#f9f9f9", fontSize: "150%" }}
+                />
               ) : (
-                <AddCircleOutlineRoundedIcon sx={{ color: "#f9f9f9" }} />
+                <AddCircleOutlineRoundedIcon
+                  sx={{ color: "#f9f9f9", fontSize: "150%" }}
+                />
               )
             }
           ></AddButton>
@@ -159,8 +191,16 @@ export const Movie: React.FC = () => {
       </CardContent>
       <Action>
         <ExpandMore
+          expand={episodes}
+          onClick={() => handleButtonClick("episodes")}
+          aria-expanded={recommended}
+          aria-label="show more"
+        >
+          <Text>Episodes</Text>
+        </ExpandMore>
+        <ExpandMore
           expand={recommended}
-          onClick={handleExpandRecommended}
+          onClick={() => handleButtonClick("recommended")}
           aria-expanded={recommended}
           aria-label="show more"
         >
@@ -168,7 +208,7 @@ export const Movie: React.FC = () => {
         </ExpandMore>
         <ExpandMore
           expand={movieDetails}
-          onClick={handleExpandDetailsClick}
+          onClick={() => handleButtonClick("movieDetails")}
           aria-expanded={movieDetails}
           aria-label="show more"
         >

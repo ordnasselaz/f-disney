@@ -1,37 +1,59 @@
-import { Button } from "@mui/material";
+import { Button, colors } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
-export const StyledCarusel = styled("div")``;
+export const StyledCarusel = styled("div")`
+  position: relative;
+`;
 
 export const Text = styled(Typography)`
   color: white;
+  text-decoration: none;
 `;
 export const StyledSlide = styled("div")`
   margin-right: 10px;
 `;
 
-const ArrowLeft = (props: any) => (
-  <Button
-    {...props}
-    className={"prev"}
-    sx={{ zIndex: 2, position: "absolute", marginY: 8}}
-  >
-    <ArrowBackIosRoundedIcon />
-  </Button>
-);
+const ArrowLeft = ({ currentSlide, slideCount, ...props }: any) => {
+  const isDisabled = currentSlide === 0;
+  return (
+    <Button
+      {...props}
+      className={"prev"}
+      disabled={isDisabled}
+      sx={{
+        zIndex: 2,
+        position: "absolute",
+        left: "2%",
+        top: "36%",
+      }}
+    >
+      <ArrowBackIosRoundedIcon />
+    </Button>
+  );
+};
 
-const ArrowRight = (props: any) => (
-  <Button
-    {...props}
-    className={"prev"}
-    sx={{ zIndex: 2, position: "absolute", marginX: 170, marginY: -18 }}
-  >
-    <ArrowForwardIosRoundedIcon />
-  </Button>
-);
+const ArrowRight = ({ currentSlide, slideCount, ...props }: any) => {
+  const isDisabled = currentSlide + settings.slidesToShow >= slideCount;
+
+  return (
+    <Button
+      {...props}
+      className={"prev"}
+      disabled={isDisabled}
+      sx={{
+        zIndex: 2,
+        position: "absolute",
+        right: "2%",
+        bottom: "40%",
+      }}
+    >
+      <ArrowForwardIosRoundedIcon />
+    </Button>
+  );
+};
 
 export const settings = {
   dots: false,

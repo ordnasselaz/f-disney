@@ -24,7 +24,7 @@ export const Watchlist: React.FC = () => {
         const filteredResults = (results as CardProps[]).map((item) => ({
           id: item.id,
           backdrop_path: item.backdrop_path,
-          title: item.title,
+          title: item.title || item.name,
           type: item.media_type,
         }));
         setList({ name, results: filteredResults });

@@ -9,9 +9,9 @@ export const BackgroundImage = styled(Box)`
   transition: opacity 200ms ease 0s;
   width: 100%;
   z-index: -1;
-  background-size: contain; 
+  background-size: contain;
   background-repeat: no-repeat;
-  background-position: right;  
+  background-position: center;
 `;
 
 export const Control = styled(Box)`
@@ -33,7 +33,8 @@ export const PlayButton = styled(Button)`
 export const AddButton = styled(Button)`
   font-size: x-large;
   color: "#f9f9f9";
-`
+  padding: 12px 24px;
+`;
 
 export const Text = styled(Typography)`
   color: white;
@@ -48,23 +49,21 @@ export const Title = styled(Typography)`
 `;
 
 export const Action = styled(Box)`
- 
   border-bottom: 2px solid rgba(249, 249, 249, 0.2);
   display: flex;
   margin-bottom: 10px;
   z-index: 2;
   gap: 30px;
   background-color: rgb(26, 29, 41);
-
 `;
 
 export const CardContentDetails = styled(CardContent)`
-display: flex;
-`
+  display: flex;
+`;
 
 export const Overview = styled(Box)`
-width: 50%;
-`
+  width: 50%;
+`;
 export const StyledCollapse = styled(Collapse)`
-background-color: rgb(26, 29, 41);
-`
+  background-color: rgb(26, 29, 41);
+`;
