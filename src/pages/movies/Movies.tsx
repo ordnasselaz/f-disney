@@ -1,5 +1,5 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
 import { Backdrop, CardProps } from "../../componets/Backdrop";

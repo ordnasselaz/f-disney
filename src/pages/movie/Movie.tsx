@@ -1,4 +1,4 @@
-import { Box, CardContent, IconButton } from "@mui/material";
+import { Box, Button, CardContent, CardProps, IconButton } from "@mui/material";
 import { IconButtonProps } from "@mui/material/IconButton";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
@@ -6,6 +6,7 @@ import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Navbar } from "../../componets/Navbar";
+import { Backdrop } from "../../componets/Backdrop";
 import {
   addItem,
   ApiResponseMovie,
@@ -13,6 +14,7 @@ import {
   getMovieDetails,
   data,
   getListById,
+  getEpisodeBySeason,
 } from "../../utils/httpsService";
 import {
   Action,
@@ -45,6 +47,18 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
+type Season = Episodes[];
+
+type Episodes = {
+  air_date: string;
+  episode_count: number;
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  season_number: number;
+};
+
 export const Movie: React.FC = () => {
   const dispatch = useDispatch();
   const [movieDetails, setMovieDetails] = useState(false);
@@ -53,6 +67,7 @@ export const Movie: React.FC = () => {
   const [details, setDetails] = useState<ApiResponseMovie | undefined>(
     undefined
   );
+  const [episodesList, setEpisodesList] = useState<Array<Episodes>>([]);
   const { id = "", type = "" } = useParams();
   const movieId = parseInt(id);
   const [list, setList] = useState<Array<{ id: number; media_type: string }>>(
@@ -123,6 +138,12 @@ export const Movie: React.FC = () => {
     }
   };
 
+  const handleEpisodeBySeason = (season: number) => {
+    getEpisodeBySeason(season.toString()).then((response) => {
+      setEpisodesList(response);
+    });
+  };
+
   useEffect(() => {
     setMovieDetails(false);
     setRecommended(false);
@@ -154,7 +175,9 @@ export const Movie: React.FC = () => {
     directorName,
     castNames,
     recommendations,
+    seasons,
   } = details || {};
+  console.log(seasons);
   return (
     <>
       {backdrop_path && (
@@ -190,14 +213,16 @@ export const Movie: React.FC = () => {
         </Overview>
       </CardContent>
       <Action>
-        <ExpandMore
-          expand={episodes}
-          onClick={() => handleButtonClick("episodes")}
-          aria-expanded={recommended}
-          aria-label="show more"
-        >
-          <Text>Episodes</Text>
-        </ExpandMore>
+        {type === "tv" && (
+          <ExpandMore
+            expand={episodes}
+            onClick={() => handleButtonClick("episodes")}
+            aria-expanded={episodes}
+            aria-label="show more"
+          >
+            <Text>Episodes</Text>
+          </ExpandMore>
+        )}
         <ExpandMore
           expand={recommended}
           onClick={() => handleButtonClick("recommended")}
@@ -215,6 +240,38 @@ export const Movie: React.FC = () => {
           <Text>Details</Text>
         </ExpandMore>
       </Action>
+
+      <StyledCollapse in={episodes} timeout="auto" unmountOnExit>
+        <CardContent>
+          {seasons ? (
+            <Box>
+              <Box sx={{ width: 500, display: "flex" }}>
+                {seasons.map((season) => (
+                  <Button
+                    onClick={() => {
+                      handleEpisodeBySeason(season.season_number);
+                    }}
+                    key={season.id}
+                  >
+                    {season.name}
+                  </Button>
+                ))}
+              </Box>
+              <Box sx={{ display: "flex" }}>
+                {episodesList.map((episode: Episodes) => (
+                  <Backdrop
+                    backdrop_path={episode.poster_path}
+                    title={episode.name}
+                  ></Backdrop>
+                ))}
+              </Box>
+            </Box>
+          ) : (
+            <Box>Ciaooooooooo</Box>
+          )}
+        </CardContent>
+      </StyledCollapse>
+
       <StyledCollapse in={recommended} timeout="auto" unmountOnExit>
         <CardContent>
           <Carousel list={recommendations?.results} type={type}></Carousel>

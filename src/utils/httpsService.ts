@@ -69,6 +69,16 @@ type Result2 = {
   vote_count: number;
 };
 
+type Season = {
+  air_date: string;
+  episode_count: number;
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  season_number: number;
+};
+
 export type ApiResponseMovie = {
   id: number;
   backdrop_path: string;
@@ -86,6 +96,7 @@ export type ApiResponseMovie = {
   recommendations: Recommendations;
   original_name?: string;
   first_air_date?: string;
+  seasons?: Season[];
 };
 
 const formatApiResponseHome = (response: ApiResponseHome[]): CardProps[] => {
@@ -112,6 +123,7 @@ const formatApiResponseMovie = (result: ApiResponseMovie): any => {
     directorName,
     videos: result.videos,
     recommendations: result.recommendations,
+    seasons: result.seasons,
   };
 };
 
@@ -214,6 +226,14 @@ export const fetchData = async (
     console.error(error);
     return [];
   }
+};
+
+export const getEpisodeBySeason = async (season: string): Promise<any> => {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/tv/1396/season/${season}?api_key=${apiKey}&language=en-US`
+  );
+  const episode = response.data.episodes;
+  return episode;
 };
 
 // login
