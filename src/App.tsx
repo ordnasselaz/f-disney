@@ -47,7 +47,7 @@ function Home() {
         <Carousel id="topRated" type="movie" />
         <Carousel id="topRated" type="tv" />
         <Carousel id="popular" type="movie" />
-        <Carousel id="genre" genre="Drama" type="movie" />
+        <Carousel id="genre" genre="Crime" type="tv" />
       </StyledMain>
     </Container>
   );

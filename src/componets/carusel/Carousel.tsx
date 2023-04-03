@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { fetchData } from "../../utils/httpsService";
 import { CardProps, Backdrop } from "../Backdrop";
 import { settings, StyledSlide, Text } from "./styles";
-import { genres } from "../../utils/genres";
+import { movieGenres, tvGenres } from "../../utils/genres";
 import { Button } from "@mui/material";
 
 type CaruselProps = {
@@ -26,6 +26,7 @@ export const Carousel: React.FC<CaruselProps> = ({
     if (initialList && initialList.length > 0) {
       setList(initialList);
     } else if (genre) {
+      const genres = type === "movie" ? movieGenres : tvGenres;
       let gen = genres.find((gen) => gen.name === genre);
       if (gen) {
         fetchData("genre", type, gen.id)

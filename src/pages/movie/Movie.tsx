@@ -138,8 +138,8 @@ export const Movie: React.FC = () => {
     }
   };
 
-  const handleEpisodeBySeason = (season: number) => {
-    getEpisodeBySeason(season.toString()).then((response) => {
+  const handleEpisodeBySeason = (type: string, id: string, season: number) => {
+    getEpisodeBySeason(type, id, season.toString()).then((response) => {
       setEpisodesList(response);
     });
   };
@@ -249,7 +249,7 @@ export const Movie: React.FC = () => {
                 {seasons.map((season) => (
                   <Button
                     onClick={() => {
-                      handleEpisodeBySeason(season.season_number);
+                      handleEpisodeBySeason(type, id, season.season_number);
                     }}
                     key={season.id}
                   >

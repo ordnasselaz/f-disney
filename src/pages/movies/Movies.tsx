@@ -4,16 +4,21 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
 import { Backdrop, CardProps } from "../../componets/Backdrop";
 import { Navbar } from "../../componets/Navbar";
-import { genres } from "../../utils/genres";
+import { movieGenres, tvGenres } from "../../utils/genres";
 import { fetchData } from "../../utils/httpsService";
 import { Main, BackdropContainer } from "./styles";
-
+type Genre = {
+  id: string;
+  name: string;
+};
 export const Movies: React.FC = () => {
-  const [selectedGenre, setSelectedGenre] = useState("Action");
+  const [selectedGenre, setSelectedGenre] = useState("Crime");
   const [list, setList] = useState<Array<CardProps>>([]);
-  const { movies } = useParams<{ movies: string }>();
-  const type = movies === "movies" ? "movie" : "tv";
   const [page, setPage] = useState<number>(1);
+  const { movies } = useParams<{ movies?: string; series?: string }>();
+  console.log(movies);
+  const type = movies === "movies" ? "movie" : "tv";
+  const genres: Genre[] = type === "movie" ? movieGenres : tvGenres;
 
   const handleGenreSelect = (value: string | null) => {
     if (value !== null) {
@@ -24,9 +29,58 @@ export const Movies: React.FC = () => {
     }
   };
 
+  const concatResults = () => {
+    const genre = genres.find((genre: Genre) => genre.name === selectedGenre);
+    console.log("genre.name", genre?.name);
+    if (genre) {
+      fetchData("genre", type, genre.id, page)
+        .then((response) => {
+          setList(list.concat(response));
+        })
+        .catch((error) => console.error(error));
+    }
+  };
+
+  useEffect(() => {
+    const genre = genres.find((genre: Genre) => genre.name === selectedGenre);
+    if (genre) {
+      fetchData("genre", type, genre.id, page)
+        .then((response) => {
+          setList(list.concat(response));
+        })
+        .catch((error) => console.error(error));
+    }
+  }, [page]);
+
+  useEffect(() => {
+    setPage(1);
+    const genre = genres.find((genre: Genre) => genre.name === selectedGenre);
+    console.log("genre.name", genre?.name);
+    if (genre) {
+      fetchData("genre", type, genre.id, page)
+        .then((response) => {
+          setList(response);
+        })
+        .catch((error) => console.error(error));
+    }
+  }, [type, selectedGenre]);
+  /*
+  useEffect(() => {
+    setList([]);
+    setSelectedGenre("Crime");
+    setPage(1);
+    concatResults();
+  }, [type]);
+  useEffect(() => {
+    setList([]);
+    setPage(1);
+    concatResults();
+  }, [selectedGenre]);
+  */
+  /*
   useEffect(() => {
     if (selectedGenre) {
-      const genre = genres.find((genre) => genre.name === selectedGenre);
+      const genre = genres.find((genre: Genre) => genre.name === selectedGenre);
       console.log("genre.name", genre?.name);
       if (genre) {
         fetchData("genre", type, genre.id, page)
@@ -36,8 +90,22 @@ export const Movies: React.FC = () => {
           .catch((error) => console.error(error));
       }
     }
-  }, [page, selectedGenre]);
+  }, [page, selectedGenre, movies]);
+*/
 
+  /*
+  useEffect(() => {
+    const genre = genres.find((genre: Genre) => genre.name === selectedGenre);
+    console.log("genre.name", genre?.name);
+    if (genre) {
+      fetchData("genre", type, genre.id, page)
+        .then((response) => {
+          setList(list.concat(response));
+        })
+        .catch((error) => console.error(error));
+    }
+  }, [page]);
+*/
   return (
     <>
       <Navbar />
@@ -53,7 +121,7 @@ export const Movies: React.FC = () => {
             marginLeft: "2%",
           }}
           onChange={(event, value) => handleGenreSelect(value)}
-          renderInput={(params) => <TextField {...params} label="Movie" />}
+          renderInput={(params) => <TextField {...params} label={type} />}
         />
         <InfiniteScroll
           dataLength={list.length}

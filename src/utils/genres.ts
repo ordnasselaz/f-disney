@@ -1,5 +1,4 @@
-export 
-const genres = [
+export const movieGenres = [
   {
     id: "28",
     name: "Action",
@@ -47,6 +46,41 @@ const genres = [
   {
     id: "10752",
     name: "War",
+  },
+  {
+    id: "37",
+    name: "Western",
+  },
+];
+
+export const tvGenres = [
+  {
+    id: "10759",
+    name: "Action & Adventure",
+  },
+  {
+    id: "16",
+    name: "Animation",
+  },
+  {
+    id: "35",
+    name: "Comedy",
+  },
+  {
+    id: "80",
+    name: "Crime",
+  },
+  {
+    id: "99",
+    name: "Documentary",
+  },
+  {
+    id: "18",
+    name: "Drama",
+  },
+  {
+    id: "10768",
+    name: "War & Politics",
   },
   {
     id: "37",

@@ -26,13 +26,15 @@ export const Navbar: React.FC = () => {
           ORIGINALS
         </Typography>
         <StyledLink to={`/movies/`}>
-        <Typography variant="h6" component="div">
-          MOVIE
-        </Typography>
+          <Typography variant="h6" component="div">
+            MOVIE
+          </Typography>
         </StyledLink>
-        <Typography variant="h6" component="div">
-          SERIE
-        </Typography>
+        <StyledLink to={`/series/`}>
+          <Typography variant="h6" component="div">
+            SERIE
+          </Typography>
+        </StyledLink>
       </StyledFullToolbar>
     </StyledAppBar>
   );

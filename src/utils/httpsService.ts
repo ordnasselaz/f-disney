@@ -228,9 +228,13 @@ export const fetchData = async (
   }
 };
 
-export const getEpisodeBySeason = async (season: string): Promise<any> => {
+export const getEpisodeBySeason = async (
+  type: string,
+  id: string,
+  season: string
+): Promise<any> => {
   const response = await axios.get(
-    `https://api.themoviedb.org/3/tv/1396/season/${season}?api_key=${apiKey}&language=en-US`
+    `https://api.themoviedb.org/3/${type}/${id}/season/${season}?api_key=${apiKey}&language=en-US`
   );
   const episode = response.data.episodes;
   return episode;
