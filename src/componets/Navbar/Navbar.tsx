@@ -24,9 +24,6 @@ export const Navbar: React.FC = () => {
             LIST
           </Typography>
         </StyledLink>
-        <Typography variant="h6" component="div">
-          ORIGINALS
-        </Typography>
         <StyledLink to={`/movies/`}>
           <Typography variant="h6" component="div">
             MOVIE

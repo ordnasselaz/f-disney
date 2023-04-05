@@ -6,7 +6,6 @@ import { fetchData } from "../../utils/httpsService";
 import { CardProps, Backdrop } from "../Backdrop";
 import { settings, StyledSlide, Text } from "./styles";
 import { movieGenres, tvGenres } from "../../utils/genres";
-import { Button } from "@mui/material";
 
 type CaruselProps = {
   id?: string;

@@ -1,11 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../..";
 import { Backdrop, CardProps } from "../../componets/Backdrop";
 import { Navbar } from "../../componets/Navbar";
 import { getListById } from "../../utils/httpsService";
 import { CardWrapper, Container, MainWrapper, NavbarWrapper } from "./styles";
+import { RootState } from "../../utils/redux/store";
 
 export const Watchlist: React.FC = () => {
   const listId = useSelector((state: RootState) => state.login.list_id);

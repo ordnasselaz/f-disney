@@ -1,103 +1,13 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { CardProps } from "../componets/Backdrop/Backdrop";
 import { apiKey, ReadAccessToken as rat } from "./apiKey";
-
-type ApiResponseHome = {
-  id: number;
-  backdropPath: string;
-  originalTitle?: string;
-  originalName?: string;
-};
-
-type Cast = {
-  name: string;
-  order: number;
-};
-
-type Crew = {
-  name: string;
-  job?: string;
-  known_for_department?: string;
-};
-
-type Credits = {
-  cast: Cast[];
-  crew: Crew[];
-};
-
-type Genre = {
-  id: number;
-  name: string;
-};
-
-type Videos = {
-  results: Result;
-};
-
-type Result = {
-  name: string;
-  key: string;
-  site: string;
-  size: number;
-  type: string;
-  official: boolean;
-  id: string;
-};
-
-type Recommendations = {
-  page: number;
-  results: Result2[];
-  total_pages: number;
-  total_results: number;
-};
-
-type Result2 = {
-  adult: boolean;
-  backdrop_path?: string;
-  id: number;
-  title: string;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  poster_path?: string;
-  media_type: string;
-  genre_ids: number[];
-  popularity: number;
-  release_date: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-};
-
-type Season = {
-  air_date: string;
-  episode_count: number;
-  id: number;
-  name: string;
-  overview: string;
-  poster_path: string;
-  season_number: number;
-};
-
-export type ApiResponseMovie = {
-  id: number;
-  backdrop_path: string;
-  title?: string;
-  name?: string;
-  overview?: string;
-  runtime?: number;
-  release_date?: string;
-  genres: Genre[];
-  adult: boolean;
-  credits: Credits;
-  directorName: string;
-  castNames: Cast[];
-  videos: Videos;
-  recommendations: Recommendations;
-  original_name?: string;
-  first_air_date?: string;
-  seasons?: Season[];
-};
+import {
+  ApiResponseHome,
+  Credits,
+  ApiResponseMovie,
+  MovieSearchResponse,
+  Data,
+} from "./types";
 
 const formatApiResponseHome = (response: ApiResponseHome[]): CardProps[] => {
   return response.map((result: any) => ({
@@ -240,13 +150,6 @@ export const getEpisodeBySeason = async (
   return episode;
 };
 
-export type MovieSearchResponse = {
-  page: number;
-  results: any[];
-  total_pages: number;
-  total_results: number;
-};
-
 export const getResultByKeyword = async (
   keyword: string
 ): Promise<MovieSearchResponse> => {
@@ -375,19 +278,10 @@ export const getListById = async (listId: number, accessToken: string) => {
 
 // add an item to the list
 
-export type data = {
-  items: [
-    {
-      media_type: string;
-      media_id: number;
-    }
-  ];
-};
-
 export const addItem = async (
   listId: number,
   accessToken: string,
-  data: data
+  data: Data
 ) => {
   const config = {
     headers: {
@@ -406,7 +300,7 @@ export const addItem = async (
     });
 };
 
-async function deleteItem(listId: number, accessToken: string, data: data) {
+async function deleteItem(listId: number, accessToken: string, data: Data) {
   try {
     const response = await axios({
       method: "DELETE",

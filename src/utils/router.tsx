@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
 import { Login } from "../pages/login/Login";
 import { Movie } from "../pages/movie";
 import { Movies } from "../pages/movies";
 import { Watchlist } from "../pages/watchlist";
 import { Search } from "../pages/search";
+import { Home } from "../pages/home/Home";
 
 export const router = createBrowserRouter([
   {
@@ -13,7 +13,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/home",
-    element: <App />,
+    element: <Home />,
   },
   {
     path: "/:movies",

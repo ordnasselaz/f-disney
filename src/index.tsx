@@ -4,38 +4,14 @@ import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import { router } from "./utils/router";
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import "./index.css";
-import { persistAuthReducer } from "./utils/redux/reducer";
-import storage from "redux-persist/lib/storage";
-import { persistReducer } from "redux-persist";
-import thunk from "redux-thunk";
 import { PersistGate } from "redux-persist/integration/react";
-import { persistStore } from "redux-persist";
-
-const rootReducer = combineReducers({
-  login: persistAuthReducer,
-});
-
-const persistConfig = {
-  key: "root",
-  storage,
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-const store = configureStore({
-  reducer: persistedReducer,
-  devTools: process.env.NODE_ENV !== "production",
-  middleware: [thunk],
-});
-
-export type RootState = ReturnType<typeof rootReducer>;
-let persistor = persistStore(store);
+import { persistor, store } from "./utils/redux/store";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>

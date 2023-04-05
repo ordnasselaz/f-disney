@@ -7,15 +7,15 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Navbar } from "../../componets/Navbar";
 import { Backdrop } from "../../componets/Backdrop";
+import { ApiResponseMovie, Data, Episodes } from "../../utils/types";
 import {
   addItem,
-  ApiResponseMovie,
   createList,
   getMovieDetails,
-  data,
   getListById,
   getEpisodeBySeason,
 } from "../../utils/httpsService";
+
 import {
   Action,
   AddButton,
@@ -30,9 +30,9 @@ import {
 } from "./styles";
 import PlayArrowRounded from "@mui/icons-material/PlayArrowRounded";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../..";
 import { clearListId, setListId } from "../../utils/redux/action";
 import { Carousel } from "../../componets/Carusel";
+import { RootState } from "../../utils/redux/store";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -46,18 +46,6 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     duration: theme.transitions.duration.shortest,
   }),
 }));
-
-type Season = Episodes[];
-
-type Episodes = {
-  air_date: string;
-  episode_count: number;
-  id: number;
-  name: string;
-  overview: string;
-  poster_path: string;
-  season_number: number;
-};
 
 export const Movie: React.FC = () => {
   const dispatch = useDispatch();
@@ -123,7 +111,7 @@ export const Movie: React.FC = () => {
   };
 */
   const handleAddItem = () => {
-    const data: data = {
+    const data: Data = {
       items: [{ media_type: type, media_id: movieId }],
     };
     if (listId === null) {
