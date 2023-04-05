@@ -4,6 +4,7 @@ import { Login } from "../pages/login/Login";
 import { Movie } from "../pages/movie";
 import { Movies } from "../pages/movies";
 import { Watchlist } from "../pages/watchlist";
+import { Search } from "../pages/search";
 
 export const router = createBrowserRouter([
   {
@@ -41,7 +42,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/search",
-    element: <></>, //<Search />
+    element: <Search />,
   },
   /*
     {

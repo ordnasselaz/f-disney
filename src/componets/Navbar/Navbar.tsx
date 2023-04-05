@@ -14,9 +14,11 @@ export const Navbar: React.FC = () => {
             HOME
           </Typography>
         </StyledLink>
-        <Typography variant="h6" component="div">
-          SEARCH
-        </Typography>
+        <StyledLink to={`/search`}>
+          <Typography variant="h6" component="div">
+            SEARCH
+          </Typography>
+        </StyledLink>
         <StyledLink to={`/watchlist`}>
           <Typography variant="h6" component="div">
             LIST

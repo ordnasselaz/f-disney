@@ -1,5 +1,4 @@
 import { CardMedia } from "@mui/material";
-import { Link } from "react-router-dom";
 import { StyledLink } from "../Navbar/styles";
 import { StyledBackdrop, Text } from "./styles";
 

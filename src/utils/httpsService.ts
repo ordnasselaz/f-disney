@@ -240,6 +240,22 @@ export const getEpisodeBySeason = async (
   return episode;
 };
 
+export type MovieSearchResponse = {
+  page: number;
+  results: any[];
+  total_pages: number;
+  total_results: number;
+};
+
+export const getResultByKeyword = async (
+  keyword: string
+): Promise<MovieSearchResponse> => {
+  const response = await axios.get<MovieSearchResponse>(
+    `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${keyword}&page=1`
+  );
+  return response.data;
+};
+
 // login
 // Generate a new request token
 // Send the user to TMDb asking the user to approve the token
@@ -389,3 +405,22 @@ export const addItem = async (
       console.log(error);
     });
 };
+
+async function deleteItem(listId: number, accessToken: string, data: data) {
+  try {
+    const response = await axios({
+      method: "DELETE",
+      url: "https://api.themoviedb.org/4/list/{list_id}/items",
+      headers: {
+        Authorization: "Bearer <<access_token>>",
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      data: {
+        items: [{ media_type: "movie", media_id: 194662 }],
+      },
+    });
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+}
