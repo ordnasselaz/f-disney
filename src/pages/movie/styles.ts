@@ -2,7 +2,12 @@ import { styled } from "@mui/material/styles";
 import { Box, Typography, Button, CardContent, Collapse } from "@mui/material";
 
 export const BackgroundImage = styled(Box)`
-  background-color: rgb(26, 29, 41);
+  //background-color: rgb(26, 29, 41);
+  /*background: linear-gradient(
+    to bottom,
+    rgba(26, 29, 41, 1),
+    rgba(26, 29, 41, 0.5)
+  );*/
   position: fixed;
   height: 100vh;
   top: 8%;
@@ -28,6 +33,8 @@ export const PlayButton = styled(Button)`
   font-size: x-large;
   background: #f9f9f9;
   color: black;
+  &:hover {
+  }
 `;
 
 export const AddButton = styled(Button)`
@@ -40,10 +47,11 @@ export const Text = styled(Typography)`
   color: white;
   font-size: 1.3rem;
   z-index: 2;
+  padding: 1%;
 `;
 
 export const Title = styled(Typography)`
-  margin-top: 15%;
+  margin-top: 25%;
   color: white;
   font-size: 3rem;
 `;
@@ -63,6 +71,10 @@ export const CardContentDetails = styled(CardContent)`
 
 export const Overview = styled(Box)`
   width: 50%;
+  margin-top: 1%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  background-color: rgb(26, 29, 41, 0.7);
 `;
 export const StyledCollapse = styled(Collapse)`
   background-color: rgb(26, 29, 41);

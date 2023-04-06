@@ -14,6 +14,7 @@ import {
   getMovieDetails,
   getListById,
   getEpisodeBySeason,
+  deleteItem,
 } from "../../utils/httpsService";
 
 import {
@@ -84,32 +85,6 @@ export const Movie: React.FC = () => {
       setEpisodes(true);
     }
   }
-  /*
-  const handleExpandEpisodes = () => {
-    if (episodes) {
-      if (recommended) {
-        setRecommended(!recommended);
-      } else if (movieDetails) {
-        setMovieDetails(!movieDetails);
-      }
-    }
-    setEpisodes(!episodes);
-  };
-
-  const handleExpandDetailsClick = () => {
-    if (recommended) {
-      setRecommended(!recommended);
-    }
-    setMovieDetails(!movieDetails);
-  };
-
-  const handleExpandRecommended = () => {
-    if (movieDetails) {
-      setMovieDetails(!movieDetails);
-    }
-    setRecommended(!recommended);
-  };
-*/
   const handleAddItem = () => {
     const data: Data = {
       items: [{ media_type: type, media_id: movieId }],
@@ -126,6 +101,14 @@ export const Movie: React.FC = () => {
     }
   };
 
+  const handleRemoveItem = () => {
+    const data: Data = {
+      items: [{ media_type: type, media_id: movieId }],
+    };
+    deleteItem(listId, accessToken, data);
+    setListed(false);
+  };
+
   const handleEpisodeBySeason = (type: string, id: string, season: number) => {
     getEpisodeBySeason(type, id, season.toString()).then((response) => {
       setEpisodesList(response);
@@ -135,6 +118,7 @@ export const Movie: React.FC = () => {
   useEffect(() => {
     setMovieDetails(false);
     setRecommended(false);
+    setEpisodesList([]);
     getMovieDetails(movieId, type)
       .then((response) => setDetails(response))
       .catch((error) => console.error(error));
@@ -165,7 +149,7 @@ export const Movie: React.FC = () => {
     recommendations,
     seasons,
   } = details || {};
-  console.log(seasons);
+  console.log(episodesList);
   return (
     <>
       {backdrop_path && (
@@ -176,13 +160,13 @@ export const Movie: React.FC = () => {
         ></BackgroundImage>
       )}
       <Navbar></Navbar>
-      <CardContent sx={{ marginTop: "12%" }}>
+      <CardContent sx={{ height: "100vh" }}>
         <Title>{title}</Title>
         <Control>
           <PlayButton startIcon={<PlayArrowRounded />}>Play</PlayButton>
           <PlayButton>Trailer</PlayButton>
           <AddButton
-            onClick={handleAddItem}
+            onClick={!listed ? handleAddItem : handleRemoveItem}
             startIcon={
               listed ? (
                 <CheckCircleOutlineRoundedIcon
@@ -200,93 +184,102 @@ export const Movie: React.FC = () => {
           <Text>{overview}</Text>
         </Overview>
       </CardContent>
-      <Action>
-        {type === "tv" && (
+      <Box sx={{ backgroundColor: "rgb(26, 29, 41)" }}>
+        <Action>
+          {type === "tv" && (
+            <ExpandMore
+              expand={episodes}
+              onClick={() => handleButtonClick("episodes")}
+              aria-expanded={episodes}
+              aria-label="show more"
+            >
+              <Text>Episodes</Text>
+            </ExpandMore>
+          )}
           <ExpandMore
-            expand={episodes}
-            onClick={() => handleButtonClick("episodes")}
-            aria-expanded={episodes}
+            expand={recommended}
+            onClick={() => handleButtonClick("recommended")}
+            aria-expanded={recommended}
             aria-label="show more"
           >
-            <Text>Episodes</Text>
+            <Text>Recommended</Text>
           </ExpandMore>
-        )}
-        <ExpandMore
-          expand={recommended}
-          onClick={() => handleButtonClick("recommended")}
-          aria-expanded={recommended}
-          aria-label="show more"
-        >
-          <Text>Recommended</Text>
-        </ExpandMore>
-        <ExpandMore
-          expand={movieDetails}
-          onClick={() => handleButtonClick("movieDetails")}
-          aria-expanded={movieDetails}
-          aria-label="show more"
-        >
-          <Text>Details</Text>
-        </ExpandMore>
-      </Action>
+          <ExpandMore
+            expand={movieDetails}
+            onClick={() => handleButtonClick("movieDetails")}
+            aria-expanded={movieDetails}
+            aria-label="show more"
+          >
+            <Text>Details</Text>
+          </ExpandMore>
+        </Action>
 
-      <StyledCollapse in={episodes} timeout="auto" unmountOnExit>
-        <CardContent>
-          {seasons ? (
+        <StyledCollapse in={episodes} timeout="auto" unmountOnExit>
+          <CardContent>
+            {seasons ? (
+              <Box>
+                <Box
+                  sx={{
+                    width: 500,
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "2%",
+                  }}
+                >
+                  {seasons.map((season) => (
+                    <Button
+                      onClick={() => {
+                        handleEpisodeBySeason(type, id, season.season_number);
+                      }}
+                      key={season.id}
+                    >
+                      {season.name}
+                    </Button>
+                  ))}
+                </Box>
+                <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                  {episodesList.map((episode: Episodes) => (
+                    <Backdrop
+                      backdrop_path={episode.still_path}
+                      title={episode.name}
+                    ></Backdrop>
+                  ))}
+                </Box>
+              </Box>
+            ) : (
+              <Box>There are no episodes for this TV series</Box>
+            )}
+          </CardContent>
+        </StyledCollapse>
+
+        <StyledCollapse in={recommended} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Carousel list={recommendations?.results} type={type}></Carousel>
+          </CardContent>
+        </StyledCollapse>
+        <StyledCollapse in={movieDetails} timeout="auto" unmountOnExit>
+          <CardContentDetails>
             <Box>
-              <Box sx={{ width: 500, display: "flex" }}>
-                {seasons.map((season) => (
-                  <Button
-                    onClick={() => {
-                      handleEpisodeBySeason(type, id, season.season_number);
-                    }}
-                    key={season.id}
-                  >
-                    {season.name}
-                  </Button>
-                ))}
-              </Box>
-              <Box sx={{ display: "flex" }}>
-                {episodesList.map((episode: Episodes) => (
-                  <Backdrop
-                    backdrop_path={episode.poster_path}
-                    title={episode.name}
-                  ></Backdrop>
-                ))}
-              </Box>
+              <Text>{title}</Text>
+              <Text>{overview}</Text>
             </Box>
-          ) : (
-            <Box>Ciaooooooooo</Box>
-          )}
-        </CardContent>
-      </StyledCollapse>
-
-      <StyledCollapse in={recommended} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Carousel list={recommendations?.results} type={type}></Carousel>
-        </CardContent>
-      </StyledCollapse>
-      <StyledCollapse in={movieDetails} timeout="auto" unmountOnExit>
-        <CardContentDetails>
-          <Box>
-            <Text>{title}</Text>
-            <Text>{overview}</Text>
-          </Box>
-          <Box>
-            <Text>Duration:</Text>
-            <Text>{runtime}</Text>
-            <Text>Realse Date:</Text>
-            <Text>{release_date}</Text>
-            <Text>Genre:</Text>
-            <Text>{genres?.map((genre) => genre).join(", ")}</Text>
-            <Text>Classification:</Text>
-            <Text>{adult ? "18+" : "16+"}</Text>
-            <Text>Director:</Text>
-            <Text>{directorName}</Text>
-            <Text>Cast:</Text>
-            <Text>{castNames ? castNames.join(", ") : ""}</Text>
-          </Box>
-        </CardContentDetails>
-      </StyledCollapse>
+            <Box>
+              <Text>Duration:</Text>
+              <Text>{runtime}</Text>
+              <Text>Realse Date:</Text>
+              <Text>{release_date}</Text>
+              <Text>Genre:</Text>
+              <Text>{genres?.map((genre) => genre).join(", ")}</Text>
+              <Text>Classification:</Text>
+              <Text>{adult ? "18+" : "16+"}</Text>
+              <Text>Director:</Text>
+              <Text>{directorName}</Text>
+              <Text>Cast:</Text>
+              <Text>{castNames ? castNames.join(", ") : ""}</Text>
+            </Box>
+          </CardContentDetails>
+        </StyledCollapse>
+      </Box>
     </>
   );
 };

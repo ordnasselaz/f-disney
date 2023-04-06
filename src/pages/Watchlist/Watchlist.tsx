@@ -12,6 +12,7 @@ export const Watchlist: React.FC = () => {
   const accessToken = useSelector(
     (state: RootState) => state.login.auth.access_token
   );
+
   const [list, setList] = useState<{ name: string; results: CardProps[] }>({
     name: "",
     results: [],
@@ -39,7 +40,7 @@ export const Watchlist: React.FC = () => {
         <Navbar />
       </NavbarWrapper>
       <MainWrapper>
-        <Typography>{list.name}</Typography>
+        <Typography color={"white"}>{list.name}</Typography>
         <CardWrapper>
           {list.results.map((movie: CardProps) => (
             <Box key={movie.id} sx={{ width: "250px", margin: "10px" }}>

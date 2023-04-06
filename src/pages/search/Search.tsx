@@ -37,9 +37,10 @@ export const Search: React.FC = ({}) => {
           <TextField
             color="info"
             fullWidth={true}
-            label="Search"
+            label="Search by title"
             value={searchField}
             onChange={onSearchChange}
+            InputLabelProps={{ style: { color: "white" } }}
           />
         </Box>
         <CardWrapper>

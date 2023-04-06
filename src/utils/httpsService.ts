@@ -12,7 +12,7 @@ import {
 const formatApiResponseHome = (response: ApiResponseHome[]): CardProps[] => {
   return response.map((result: any) => ({
     id: result.id,
-    title: result.title || result.original_name,
+    title: result.title || result.name,
     backdrop_path: result.backdrop_path,
   }));
 };
@@ -23,7 +23,7 @@ const formatApiResponseMovie = (result: ApiResponseMovie): any => {
   return {
     id: result.id,
     backdrop_path: result.backdrop_path,
-    title: result.title || result.original_name,
+    title: result.title || result.name,
     overview: result.overview,
     runtime: `${result.runtime} min`,
     release_date: result.release_date || result.first_air_date,
@@ -63,7 +63,7 @@ export const getUpcoming = async (type: string): Promise<CardProps[]> => {
 
 export const getLastest = async (type: string): Promise<CardProps[]> => {
   const response = await axios.get(
-    `https://api.themoviedb.org/3/${type}/latest?api_key=${apiKey}&language=en-US`
+    `https://api.themoviedb.org/3/${type}/latest?api_key=${apiKey}&language=en-US&page=1`
   );
   const movie = formatApiResponseHome(response.data.results);
   return movie;
@@ -300,21 +300,23 @@ export const addItem = async (
     });
 };
 
-async function deleteItem(listId: number, accessToken: string, data: Data) {
+export const deleteItem = async (
+  listId: number,
+  accessToken: string,
+  data: Data
+) => {
   try {
     const response = await axios({
       method: "DELETE",
-      url: "https://api.themoviedb.org/4/list/{list_id}/items",
+      url: `https://api.themoviedb.org/4/list/${listId}/items`,
       headers: {
-        Authorization: "Bearer <<access_token>>",
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json;charset=utf-8",
       },
-      data: {
-        items: [{ media_type: "movie", media_id: 194662 }],
-      },
+      data: data,
     });
     console.log(response);
   } catch (error) {
     console.log(error);
   }
-}
+};

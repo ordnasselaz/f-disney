@@ -45,10 +45,12 @@ export const Home: React.FC = () => {
         <Navbar />
       </StyledNavbar>
       <StyledMain>
+        <Carousel id="popular" type="movie" />
+        <Carousel id="popular" type="tv" />
         <Carousel id="topRated" type="movie" />
         <Carousel id="topRated" type="tv" />
-        <Carousel id="popular" type="movie" />
-        <Carousel id="genre" genre="Crime" type="tv" />
+        <Carousel id="genre" genre="Crime" type="movie" />
+        <Carousel id="genre" genre="Fantasy" type="movie" />
       </StyledMain>
     </Container>
   );

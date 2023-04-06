@@ -6,6 +6,7 @@ import { fetchData } from "../../utils/httpsService";
 import { CardProps, Backdrop } from "../Backdrop";
 import { settings, StyledSlide, Text } from "./styles";
 import { movieGenres, tvGenres } from "../../utils/genres";
+import { Box } from "@mui/material";
 
 type CaruselProps = {
   id?: string;
@@ -47,8 +48,8 @@ export const Carousel: React.FC<CaruselProps> = ({
   );
 
   return (
-    <>
-      <Text>{id}</Text>
+    <Box sx={{ paddingTop: "2%" }}>
+      <Text>{genre ? genre : id}</Text>
       <StyledSlide>
         <Slider {...settings}>
           {filteredList.map((movie: CardProps) => (
@@ -56,6 +57,6 @@ export const Carousel: React.FC<CaruselProps> = ({
           ))}
         </Slider>
       </StyledSlide>
-    </>
+    </Box>
   );
 };

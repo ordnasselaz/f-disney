@@ -118,6 +118,6 @@ export type Episodes = {
   id: number;
   name: string;
   overview: string;
-  poster_path: string;
+  still_path: string;
   season_number: number;
 };

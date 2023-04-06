@@ -1,4 +1,4 @@
-import { Button, colors } from "@mui/material";
+import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
@@ -11,6 +11,7 @@ export const StyledCarusel = styled("div")`
 export const Text = styled(Typography)`
   color: white;
   text-decoration: none;
+  padding-bottom: 1%;
 `;
 export const StyledSlide = styled("div")`
   margin-right: 10px;
