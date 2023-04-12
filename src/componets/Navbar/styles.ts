@@ -7,10 +7,22 @@ export const StyledLink = styled(Link)`
   color: inherit;
 `;
 
-export const StyledAppBar = styled(AppBar)``;
+export const StyledAppBar = styled(AppBar)`
+  display: flex;
+  background-color: #040714;
+  gap: 2%;
+`;
 
 export const StyledFullToolbar = styled(Toolbar)`
   display: flex;
   background-color: #040714;
   gap: 2%;
+`;
+
+export const StyledResponsiveToolbar = styled(Toolbar)`
+  display: flex;
+  background-color: #040714;
+  gap: 2%;
+  @media (min-width: 600px) {
+  }
 `;

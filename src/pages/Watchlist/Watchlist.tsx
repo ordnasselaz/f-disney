@@ -4,7 +4,13 @@ import { useSelector } from "react-redux";
 import { Backdrop, CardProps } from "../../componets/Backdrop";
 import { Navbar } from "../../componets/Navbar";
 import { getListById } from "../../utils/httpsService";
-import { CardWrapper, Container, MainWrapper, NavbarWrapper } from "./styles";
+import {
+  CardWrapper,
+  Container,
+  MainWrapper,
+  NavbarWrapper,
+  StyledTypograpy,
+} from "./styles";
 import { RootState } from "../../utils/redux/store";
 
 export const Watchlist: React.FC = () => {
@@ -40,7 +46,7 @@ export const Watchlist: React.FC = () => {
         <Navbar />
       </NavbarWrapper>
       <MainWrapper>
-        <Typography color={"white"}>{list.name}</Typography>
+        <StyledTypograpy>{list.name}</StyledTypograpy>
         <CardWrapper>
           {list.results.map((movie: CardProps) => (
             <Box key={movie.id} sx={{ width: "250px", margin: "10px" }}>

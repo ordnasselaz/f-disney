@@ -5,12 +5,9 @@ export const Container = styled(Box)`
   background-color: rgb(26, 29, 41);
   display: grid;
   grid-template-columns: 0.2fr 1fr 1fr;
-  grid-template-rows: 0.1fr 1fr 1fr;
+  grid-template-rows: 0.2fr 0.1fr 0.1fr;
   grid-template-areas:
     "StyledNavbar StyledNavbar StyledNavbar"
-    "StyledMain StyledMain StyledMain"
-    "StyledMain StyledMain StyledMain"
-    "StyledMain StyledMain StyledMain"
     "StyledMain StyledMain StyledMain";
 `;
 

@@ -6,7 +6,12 @@ import { Backdrop, CardProps } from "../../componets/Backdrop";
 import { Navbar } from "../../componets/Navbar";
 import { movieGenres, tvGenres } from "../../utils/genres";
 import { fetchData } from "../../utils/httpsService";
-import { Main, BackdropContainer } from "./styles";
+import {
+  Main,
+  BackdropContainer,
+  CardContainer,
+  StyledAutocomplete,
+} from "./styles";
 type Genre = {
   id: string;
   name: string;
@@ -26,18 +31,6 @@ export const Movies: React.FC = () => {
       setSelectedGenre(value);
       setList([]);
       setPage(1);
-    }
-  };
-
-  const concatResults = () => {
-    const genre = genres.find((genre: Genre) => genre.name === selectedGenre);
-    console.log("genre.name", genre?.name);
-    if (genre) {
-      fetchData("genre", type, genre.id, page)
-        .then((response) => {
-          setList(list.concat(response));
-        })
-        .catch((error) => console.error(error));
     }
   };
 
@@ -110,19 +103,22 @@ export const Movies: React.FC = () => {
     <>
       <Navbar />
       <Main>
-        <Autocomplete
-          disablePortal
-          options={genres.map((genre) => genre.name)}
-          openText="Open"
-          sx={{
-            width: 300,
-            backgroundColor: "rgba(182, 182, 182, 0.2)",
-            borderRadius: "22px",
-            marginLeft: "2%",
-          }}
-          onChange={(event, value) => handleGenreSelect(value)}
-          renderInput={(params) => <TextField {...params} label={type} />}
-        />
+        <StyledAutocomplete>
+          {" "}
+          <Autocomplete
+            disablePortal
+            options={genres.map((genre) => genre.name)}
+            openText="Open"
+            sx={{
+              width: 300,
+              backgroundColor: "rgba(182, 182, 182, 0.2)",
+              borderRadius: "22px",
+              marginLeft: "2%",
+            }}
+            onChange={(event, value) => handleGenreSelect(value)}
+            renderInput={(params) => <TextField {...params} label={type} />}
+          />
+        </StyledAutocomplete>
         <InfiniteScroll
           dataLength={list.length}
           next={() => {
@@ -133,12 +129,9 @@ export const Movies: React.FC = () => {
         >
           <BackdropContainer>
             {list.map((movie: CardProps) => (
-              <Box
-                key={movie.id}
-                sx={{ width: "250px", marginTop: "2%", marginX: "1%" }}
-              >
-                <Backdrop {...movie} type={type} />
-              </Box>
+              <CardContainer>
+                <Backdrop key={movie.id} {...movie} type={type} />
+              </CardContainer>
             ))}
           </BackdropContainer>
         </InfiniteScroll>

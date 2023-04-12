@@ -47,10 +47,10 @@ export const Home: React.FC = () => {
       <StyledMain>
         <Carousel id="popular" type="movie" />
         <Carousel id="popular" type="tv" />
+        <Carousel id="genre" genre="Crime" type="movie" />
         <Carousel id="topRated" type="movie" />
         <Carousel id="topRated" type="tv" />
-        <Carousel id="genre" genre="Crime" type="movie" />
-        <Carousel id="genre" genre="Fantasy" type="movie" />
+        <Carousel id="genre" genre="Animation" type="tv" />
       </StyledMain>
     </Container>
   );

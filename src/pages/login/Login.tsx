@@ -1,4 +1,4 @@
-import { AppBar, Box, CardMedia, Modal, Typography } from "@mui/material";
+import { AppBar, Box, CardMedia, Link, Modal, Typography } from "@mui/material";
 import Button from "@mui/material/Button/Button";
 import React, { useState } from "react";
 import { getRequestToken } from "../../utils/httpsService";
@@ -37,10 +37,11 @@ export const Login: React.FC = () => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 400,
-    bgcolor: "background.paper",
+    bgcolor: "rgb(48, 49, 53)",
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
+    borderRadius: "4px",
   };
 
   return (
@@ -60,7 +61,11 @@ export const Login: React.FC = () => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            {authUrl ? <a href={authUrl}>Click here to authorize</a> : null}
+            {authUrl ? (
+              <Link underline="none" href={authUrl} sx={{ color: "black" }}>
+                Click here to authorize
+              </Link>
+            ) : null}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             To continue you must authorize the app to access TMDB

@@ -22,13 +22,11 @@ export const BackgroundImage = styled(Box)`
 export const Control = styled(Box)`
   display: flex;
   align-items: center;
-  gap: 20px;
-  margin: calc(28px) -8px -4px;
-  min-height: 56px;
+  gap: 2%;
 `;
 
 export const PlayButton = styled(Button)`
-  width: 20%;
+  width: 15%;
   height: 5%;
   font-size: x-large;
   background: #f9f9f9;
@@ -38,9 +36,7 @@ export const PlayButton = styled(Button)`
 `;
 
 export const AddButton = styled(Button)`
-  font-size: x-large;
   color: "#f9f9f9";
-  padding: 12px 24px;
 `;
 
 export const Text = styled(Typography)`

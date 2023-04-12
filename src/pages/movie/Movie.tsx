@@ -1,4 +1,13 @@
-import { Box, Button, CardContent, CardProps, IconButton } from "@mui/material";
+import {
+  Box,
+  Button,
+  CardContent,
+  CardProps,
+  Collapse,
+  FormControlLabel,
+  IconButton,
+  Switch,
+} from "@mui/material";
 import { IconButtonProps } from "@mui/material/IconButton";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
@@ -50,6 +59,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 export const Movie: React.FC = () => {
   const dispatch = useDispatch();
+  const [collapseOverview, setCollapseOverview] = useState(false);
   const [movieDetails, setMovieDetails] = useState(false);
   const [recommended, setRecommended] = useState(false);
   const [episodes, setEpisodes] = useState(false);
@@ -115,6 +125,10 @@ export const Movie: React.FC = () => {
     });
   };
 
+  const handleCollapseOverview = () => {
+    setCollapseOverview(!collapseOverview);
+  };
+
   useEffect(() => {
     setMovieDetails(false);
     setRecommended(false);
@@ -160,7 +174,7 @@ export const Movie: React.FC = () => {
         ></BackgroundImage>
       )}
       <Navbar></Navbar>
-      <CardContent sx={{ height: "100vh" }}>
+      <CardContent>
         <Title>{title}</Title>
         <Control>
           <PlayButton startIcon={<PlayArrowRounded />}>Play</PlayButton>
@@ -170,18 +184,28 @@ export const Movie: React.FC = () => {
             startIcon={
               listed ? (
                 <CheckCircleOutlineRoundedIcon
-                  sx={{ color: "#f9f9f9", fontSize: "150%" }}
+                  fontSize="large"
+                  sx={{ color: "#f9f9f9", fontSize: 400 }}
                 />
               ) : (
                 <AddCircleOutlineRoundedIcon
-                  sx={{ color: "#f9f9f9", fontSize: "150%" }}
+                  sx={{ color: "#f9f9f9", fontSize: 400 }}
                 />
               )
             }
-          ></AddButton>
+          />
         </Control>
         <Overview>
-          <Text>{overview}</Text>
+          <Collapse collapsedSize={"70px"} in={collapseOverview}>
+            <Text>{overview}</Text>
+          </Collapse>
+          {!collapseOverview && (
+            <Text>
+              <Button onClick={handleCollapseOverview} color="inherit">
+                ...
+              </Button>
+            </Text>
+          )}
         </Overview>
       </CardContent>
       <Box sx={{ backgroundColor: "rgb(26, 29, 41)" }}>

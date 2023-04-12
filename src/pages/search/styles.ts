@@ -1,21 +1,5 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
-
-export const Container = styled("div")`
-  display: flex;
-`;
-
-export const NavbarWrapper = styled("div")({});
-
-export const MainWrapper = styled("div")`
-  margin-top: 5%;
-`;
-
-export const CardWrapper = styled("div")`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
 
 export const StyledMain = styled(Box)`
   margin-top: 6%;
@@ -38,14 +22,13 @@ export const CardContainer = styled(Box)`
   }
 `;
 
-export const StyledTypograpy = styled(Typography)`
-  color: white;
-  font-size: 20px;
-  margin: 2% 2%;
+export const StyledTextField = styled(Box)`
+  background-color: #31343e;
+  margin-top: 5%;
   @media (max-width: 900px) {
-    margin-top: 5%;
+    margin-top: 10%;
   }
   @media (max-width: 600px) {
-    margin-top: 15%;
+    margin-top: 20%;
   }
 `;

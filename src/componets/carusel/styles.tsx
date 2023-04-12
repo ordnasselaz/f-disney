@@ -5,7 +5,7 @@ import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
 export const StyledCarusel = styled("div")`
-  position: relative;
+  //position: relative;
 `;
 
 export const Text = styled(Typography)`
@@ -14,7 +14,7 @@ export const Text = styled(Typography)`
   padding-bottom: 1%;
 `;
 export const StyledSlide = styled("div")`
-  margin-right: 10px;
+  //margin-right: 10px;
 `;
 
 const ArrowLeft = ({ currentSlide, slideCount, ...props }: any) => {
@@ -27,8 +27,9 @@ const ArrowLeft = ({ currentSlide, slideCount, ...props }: any) => {
       sx={{
         zIndex: 2,
         position: "absolute",
-        left: "2%",
-        top: "36%",
+        //left: "2%",
+        //top: "36%",
+        top: "50%",
       }}
     >
       <ArrowBackIosRoundedIcon />
@@ -55,6 +56,19 @@ const ArrowRight = ({ currentSlide, slideCount, ...props }: any) => {
     </Button>
   );
 };
+export const settings1 = {
+  className: "center",
+  centerMode: true,
+  dots: true,
+  infinite: true,
+  centerPadding: "200px",
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  adaptiveHeight: true,
+  prevArrow: <ArrowLeft />,
+  nextArrow: <ArrowRight />,
+};
 
 export const settings = {
   dots: false,
@@ -71,6 +85,7 @@ export const settings = {
       settings: {
         slidesToShow: 3.5,
         slidesToScroll: 1,
+        initialSlide: 0,
       },
     },
     {
@@ -78,7 +93,7 @@ export const settings = {
       settings: {
         slidesToShow: 2.5,
         slidesToScroll: 1,
-        initialSlide: 2,
+        initialSlide: 0,
       },
     },
     {
@@ -86,6 +101,7 @@ export const settings = {
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
+        initialSlide: 0,
       },
     },
   ],

@@ -151,10 +151,11 @@ export const getEpisodeBySeason = async (
 };
 
 export const getResultByKeyword = async (
-  keyword: string
+  keyword: string,
+  page: string
 ): Promise<MovieSearchResponse> => {
   const response = await axios.get<MovieSearchResponse>(
-    `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${keyword}&page=1`
+    `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${keyword}&page=${page}`
   );
   return response.data;
 };
@@ -265,7 +266,6 @@ export const getListById = async (listId: number, accessToken: string) => {
   return axios(settings)
     .then((response) => {
       if (response.data.results) {
-        console.log(response.data.results);
         return response.data;
       } else {
         console.log("The list does not exist or is empty");
