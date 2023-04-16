@@ -7,6 +7,7 @@ import {
   FormControlLabel,
   IconButton,
   Switch,
+  Tooltip,
 } from "@mui/material";
 import { IconButtonProps } from "@mui/material/IconButton";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
@@ -32,16 +33,20 @@ import {
   BackgroundImage,
   CardContentDetails,
   Control,
-  Overview,
+  StyledOverview,
   PlayButton,
   StyledCollapse,
+  StyledEpisodesList,
+  StyledMain,
+  StyledSeasonsList,
   Text,
+  Text2,
   Title,
 } from "./styles";
 import PlayArrowRounded from "@mui/icons-material/PlayArrowRounded";
 import { useDispatch, useSelector } from "react-redux";
 import { clearListId, setListId } from "../../utils/redux/action";
-import { Carousel } from "../../componets/Carusel";
+import { Carousel } from "../../componets/Carousel";
 import { RootState } from "../../utils/redux/store";
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -66,6 +71,7 @@ export const Movie: React.FC = () => {
   const [details, setDetails] = useState<ApiResponseMovie | undefined>(
     undefined
   );
+  const [season, setSeason] = useState<string>("");
   const [episodesList, setEpisodesList] = useState<Array<Episodes>>([]);
   const { id = "", type = "" } = useParams();
   const movieId = parseInt(id);
@@ -122,6 +128,7 @@ export const Movie: React.FC = () => {
   const handleEpisodeBySeason = (type: string, id: string, season: number) => {
     getEpisodeBySeason(type, id, season.toString()).then((response) => {
       setEpisodesList(response);
+      setSeason(season.toString());
     });
   };
 
@@ -163,7 +170,7 @@ export const Movie: React.FC = () => {
     recommendations,
     seasons,
   } = details || {};
-  console.log(episodesList);
+  console.log(overview?.length);
   return (
     <>
       {backdrop_path && (
@@ -174,40 +181,51 @@ export const Movie: React.FC = () => {
         ></BackgroundImage>
       )}
       <Navbar></Navbar>
-      <CardContent>
+      <StyledMain>
         <Title>{title}</Title>
         <Control>
           <PlayButton startIcon={<PlayArrowRounded />}>Play</PlayButton>
           <PlayButton>Trailer</PlayButton>
-          <AddButton
-            onClick={!listed ? handleAddItem : handleRemoveItem}
-            startIcon={
-              listed ? (
-                <CheckCircleOutlineRoundedIcon
-                  fontSize="large"
-                  sx={{ color: "#f9f9f9", fontSize: 400 }}
-                />
-              ) : (
-                <AddCircleOutlineRoundedIcon
-                  sx={{ color: "#f9f9f9", fontSize: 400 }}
-                />
-              )
-            }
-          />
+          <Tooltip
+            title={!listed ? "Add to My List" : "Remove from My List"}
+            placement="top"
+          >
+            <AddButton
+              onClick={!listed ? handleAddItem : handleRemoveItem}
+              startIcon={
+                listed ? (
+                  <CheckCircleOutlineRoundedIcon
+                    fontSize="large"
+                    sx={{ color: "#f9f9f9", fontSize: 400 }}
+                  />
+                ) : (
+                  <AddCircleOutlineRoundedIcon
+                    sx={{ color: "#f9f9f9", fontSize: 400 }}
+                  />
+                )
+              }
+            />
+          </Tooltip>
         </Control>
-        <Overview>
-          <Collapse collapsedSize={"70px"} in={collapseOverview}>
+        {overview && overview.length <= 200 ? (
+          <StyledOverview>
             <Text>{overview}</Text>
-          </Collapse>
-          {!collapseOverview && (
-            <Text>
-              <Button onClick={handleCollapseOverview} color="inherit">
-                ...
-              </Button>
-            </Text>
-          )}
-        </Overview>
-      </CardContent>
+          </StyledOverview>
+        ) : (
+          <StyledOverview>
+            <Collapse collapsedSize={"70px"} in={collapseOverview}>
+              <Text>{overview}</Text>
+            </Collapse>
+            {!collapseOverview && (
+              <Text>
+                <Button onClick={handleCollapseOverview} color="inherit">
+                  ...
+                </Button>
+              </Text>
+            )}
+          </StyledOverview>
+        )}
+      </StyledMain>
       <Box sx={{ backgroundColor: "rgb(26, 29, 41)" }}>
         <Action>
           {type === "tv" && (
@@ -242,16 +260,10 @@ export const Movie: React.FC = () => {
           <CardContent>
             {seasons ? (
               <Box>
-                <Box
-                  sx={{
-                    width: 500,
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "2%",
-                  }}
-                >
+                <StyledSeasonsList>
                   {seasons.map((season) => (
                     <Button
+                      variant="outlined"
                       onClick={() => {
                         handleEpisodeBySeason(type, id, season.season_number);
                       }}
@@ -260,15 +272,16 @@ export const Movie: React.FC = () => {
                       {season.name}
                     </Button>
                   ))}
-                </Box>
-                <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                </StyledSeasonsList>
+                <Text>{season !== undefined ? "season " + season : ""}</Text>
+                <StyledEpisodesList>
                   {episodesList.map((episode: Episodes) => (
                     <Backdrop
                       backdrop_path={episode.still_path}
                       title={episode.name}
                     ></Backdrop>
                   ))}
-                </Box>
+                </StyledEpisodesList>
               </Box>
             ) : (
               <Box>There are no episodes for this TV series</Box>
@@ -283,22 +296,26 @@ export const Movie: React.FC = () => {
         </StyledCollapse>
         <StyledCollapse in={movieDetails} timeout="auto" unmountOnExit>
           <CardContentDetails>
-            <Box>
-              <Text>{title}</Text>
+            <Box sx={{ width: "50%", padding: "2%" }}>
+              <Text2>{title}</Text2>
               <Text>{overview}</Text>
             </Box>
-            <Box>
-              <Text>Duration:</Text>
-              <Text>{runtime}</Text>
-              <Text>Realse Date:</Text>
+            <Box sx={{ width: "50%", padding: "2%" }}>
+              {type === "movie" && (
+                <>
+                  <Text2>Duration:</Text2>
+                  <Text>{runtime}</Text>
+                </>
+              )}
+              <Text2>Realse Date:</Text2>
               <Text>{release_date}</Text>
-              <Text>Genre:</Text>
+              <Text2>Genre:</Text2>
               <Text>{genres?.map((genre) => genre).join(", ")}</Text>
-              <Text>Classification:</Text>
+              <Text2>Classification:</Text2>
               <Text>{adult ? "18+" : "16+"}</Text>
-              <Text>Director:</Text>
+              <Text2>Director:</Text2>
               <Text>{directorName}</Text>
-              <Text>Cast:</Text>
+              <Text2>Cast:</Text2>
               <Text>{castNames ? castNames.join(", ") : ""}</Text>
             </Box>
           </CardContentDetails>

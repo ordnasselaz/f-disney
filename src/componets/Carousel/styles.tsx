@@ -4,17 +4,11 @@ import Typography from "@mui/material/Typography";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
-export const StyledCarusel = styled("div")`
-  //position: relative;
-`;
-
 export const Text = styled(Typography)`
   color: white;
   text-decoration: none;
   padding-bottom: 1%;
-`;
-export const StyledSlide = styled("div")`
-  //margin-right: 10px;
+  margin: 2%;
 `;
 
 const ArrowLeft = ({ currentSlide, slideCount, ...props }: any) => {
@@ -56,33 +50,23 @@ const ArrowRight = ({ currentSlide, slideCount, ...props }: any) => {
     </Button>
   );
 };
-export const settings1 = {
-  className: "center",
-  centerMode: true,
-  dots: true,
-  infinite: true,
-  centerPadding: "200px",
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  adaptiveHeight: true,
-  prevArrow: <ArrowLeft />,
-  nextArrow: <ArrowRight />,
-};
 
 export const settings = {
+  centerMode: false,
   dots: false,
   infinite: false,
   slidesToShow: 4.5,
   slidesToScroll: 1,
   initialSlide: 0,
   arrows: true,
+  mobileFirst: true,
   prevArrow: <ArrowLeft />,
-  nextArrow: <ArrowRight />,
+  nextArrow: <ArrowRight /> /*
   responsive: [
     {
       breakpoint: 1024,
       settings: {
+        centerMode: false,
         slidesToShow: 3.5,
         slidesToScroll: 1,
         initialSlide: 0,
@@ -91,6 +75,7 @@ export const settings = {
     {
       breakpoint: 600,
       settings: {
+        centerMode: false,
         slidesToShow: 2.5,
         slidesToScroll: 1,
         initialSlide: 0,
@@ -104,16 +89,5 @@ export const settings = {
         initialSlide: 0,
       },
     },
-  ],
+  ],*/,
 };
-
-/* 
- export const StyledCarusel = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  padding: 50px;
-  gap: 20px;
-  width: 127px;
-  height: 233px;
-`
-*/

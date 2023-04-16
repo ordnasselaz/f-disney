@@ -10,7 +10,7 @@ import {
   setListId,
 } from "../../utils/redux/action";
 import { Container, StyledMain, StyledNavbar } from "./styles";
-import { Carousel } from "../../componets/Carusel";
+import { Carousel } from "../../componets/Carousel";
 import { RootState } from "../../utils/redux/store";
 
 export const Home: React.FC = () => {

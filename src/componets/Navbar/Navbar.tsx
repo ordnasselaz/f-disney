@@ -6,9 +6,9 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import LocalMoviesRoundedIcon from "@mui/icons-material/LocalMoviesRounded";
 import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded";
+
 export const Navbar: React.FC = () => {
   const isSmallerThan600 = useMediaQuery("(max-width:600px)");
-
   return (
     <StyledAppBar>
       <StyledFullToolbar>

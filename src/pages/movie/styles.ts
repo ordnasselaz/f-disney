@@ -16,7 +16,13 @@ export const BackgroundImage = styled(Box)`
   z-index: -1;
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: right;
+  @media (max-width: 900px) {
+    background-position: 0% 0%;
+  }
+  @media (max-width: 600px) {
+    background-position: 0% 0%;
+  }
 `;
 
 export const Control = styled(Box)`
@@ -33,6 +39,12 @@ export const PlayButton = styled(Button)`
   color: black;
   &:hover {
   }
+  @media (max-width: 900px) {
+    width: 30%;
+  }
+  @media (max-width: 600px) {
+    width: 80%;
+  }
 `;
 
 export const AddButton = styled(Button)`
@@ -46,10 +58,33 @@ export const Text = styled(Typography)`
   padding: 1%;
 `;
 
+export const Text2 = styled(Typography)`
+  color: white;
+  font-size: 1.3rem;
+  z-index: 2;
+  padding: 1%;
+  font-weight: bold;
+`;
+
+export const StyledMain = styled(CardContent)`
+  background: linear-gradient(
+    90deg,
+    rgba(26, 29, 41, 1) 0%,
+    rgba(26, 29, 41, 0.01) 100%
+  );
+`;
+
 export const Title = styled(Typography)`
   margin-top: 25%;
   color: white;
   font-size: 3rem;
+  @media (max-width: 900px) {
+    margin-top: 0%;
+    font-size: 2rem;
+  }
+  @media (max-width: 900px) {
+    margin-top: 80%;
+  }
 `;
 
 export const Action = styled(Box)`
@@ -65,13 +100,39 @@ export const CardContentDetails = styled(CardContent)`
   display: flex;
 `;
 
-export const Overview = styled(Box)`
+export const StyledOverview = styled(Box)`
   width: 50%;
   margin-top: 1%;
   padding-top: 2%;
   padding-bottom: 2%;
-  background-color: rgb(26, 29, 41, 0.7);
+  //background-color: rgb(26, 29, 41, 0.7);
+  @media (max-width: 900px) {
+    width: 80%;
+  }
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 export const StyledCollapse = styled(Collapse)`
   background-color: rgb(26, 29, 41);
+`;
+
+export const StyledSeasonsList = styled(Box)`
+  width: 500;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2%;
+  & > Button {
+    variant: outlined;
+    color: white;
+  }
+`;
+
+export const StyledEpisodesList = styled(Box)`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2%;
+  & > * {
+    margin-top: 2%;
+  }
 `;

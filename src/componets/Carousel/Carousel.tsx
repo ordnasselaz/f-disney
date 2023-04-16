@@ -4,9 +4,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { fetchData } from "../../utils/httpsService";
 import { CardProps, Backdrop } from "../Backdrop";
-import { settings, Text, settings1 } from "./styles";
+import { settings, Text } from "./styles";
 import { movieGenres, tvGenres } from "../../utils/genres";
-import { get } from "http";
 
 type CaruselProps = {
   id?: string;
@@ -24,7 +23,7 @@ function getTitle(type: string, id?: string): string {
         case "topRated":
           return "Top rated movie";
         default:
-          return "Invalid ID for movie type";
+          return "";
       }
     case "tv":
       switch (id) {
@@ -33,10 +32,10 @@ function getTitle(type: string, id?: string): string {
         case "topRated":
           return "Top rated TV show";
         default:
-          return "Invalid ID for TV show type";
+          return "";
       }
     default:
-      return "Invalid type";
+      return "";
   }
 }
 export const Carousel: React.FC<CaruselProps> = ({
@@ -72,10 +71,9 @@ export const Carousel: React.FC<CaruselProps> = ({
   );
   return (
     <>
-      {id ||
-        (genre && (
-          <Text>{genre ? `${genre} ${type}` : getTitle(type, id)}</Text>
-        ))}
+      <Text sx={{ color: "white" }}>
+        {genre ? `${genre} ${type}` : getTitle(type, id)}
+      </Text>
       <Slider {...settings}>
         {filteredList.map((movie: CardProps) => (
           <Backdrop key={movie.id} {...movie} type={type} />

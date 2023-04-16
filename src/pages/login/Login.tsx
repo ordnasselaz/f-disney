@@ -62,7 +62,7 @@ export const Login: React.FC = () => {
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             {authUrl ? (
-              <Link underline="none" href={authUrl} sx={{ color: "black" }}>
+              <Link underline="none" href={authUrl} sx={{ color: "white" }}>
                 Click here to authorize
               </Link>
             ) : null}
