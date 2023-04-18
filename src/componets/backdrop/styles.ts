@@ -7,7 +7,6 @@ export const StyledBackdrop = styled(Card)`
     transition: padding 500ms ease-out 0s;
   }
   margin: 0% 2%;
-  //border-radius: 4px;
 `;
 
 export const Text = styled(Typography)`

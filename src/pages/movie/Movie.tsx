@@ -170,7 +170,6 @@ export const Movie: React.FC = () => {
     recommendations,
     seasons,
   } = details || {};
-  console.log(overview?.length);
   return (
     <>
       {backdrop_path && (
@@ -277,6 +276,7 @@ export const Movie: React.FC = () => {
                 <StyledEpisodesList>
                   {episodesList.map((episode: Episodes) => (
                     <Backdrop
+                      key={episode.id}
                       backdrop_path={episode.still_path}
                       title={episode.name}
                     ></Backdrop>

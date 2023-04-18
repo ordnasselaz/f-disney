@@ -1,17 +1,19 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Backdrop, CardProps } from "../../componets/Backdrop";
+import { Backdrop } from "../../componets/Backdrop";
 import { Navbar } from "../../componets/Navbar";
 import { getListById } from "../../utils/httpsService";
+import { CardProps } from "../../utils/types";
 import {
-  CardWrapper,
+  CardContainer,
+  CardListContainer,
   Container,
   MainWrapper,
-  NavbarWrapper,
   StyledTypograpy,
 } from "./styles";
 import { RootState } from "../../utils/redux/store";
+import { Footer } from "../../componets/Footer";
 
 export const Watchlist: React.FC = () => {
   const listId = useSelector((state: RootState) => state.login.list_id);
@@ -41,20 +43,24 @@ export const Watchlist: React.FC = () => {
     }
   }, []);
   return (
-    <Container>
-      <NavbarWrapper>
+    <>
+      <Container>
         <Navbar />
-      </NavbarWrapper>
-      <MainWrapper>
-        <StyledTypograpy>{list.name}</StyledTypograpy>
-        <CardWrapper>
-          {list.results.map((movie: CardProps) => (
-            <Box key={movie.id} sx={{ width: "250px", margin: "10px" }}>
-              <Backdrop {...movie} type={movie.type} />
-            </Box>
-          ))}
-        </CardWrapper>
-      </MainWrapper>
-    </Container>
+        <MainWrapper>
+          <StyledTypograpy>{list.name}</StyledTypograpy>
+          <CardListContainer>
+            {list.results.map((movie: CardProps) => (
+              <CardContainer
+                key={movie.id}
+                sx={{ width: "250px", margin: "10px" }}
+              >
+                <Backdrop {...movie} type={movie.type} />
+              </CardContainer>
+            ))}
+          </CardListContainer>
+        </MainWrapper>
+      </Container>
+      <Footer></Footer>
+    </>
   );
 };

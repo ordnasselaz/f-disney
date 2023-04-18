@@ -2,10 +2,11 @@ import { Autocomplete, Box, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
-import { Backdrop, CardProps } from "../../componets/Backdrop";
+import { Backdrop } from "../../componets/Backdrop";
 import { Navbar } from "../../componets/Navbar";
 import { movieGenres, tvGenres } from "../../utils/genres";
 import { fetchData } from "../../utils/httpsService";
+import { CardProps } from "../../utils/types";
 import {
   Main,
   BackdropContainer,
@@ -21,13 +22,11 @@ export const Movies: React.FC = () => {
   const [list, setList] = useState<Array<CardProps>>([]);
   const [page, setPage] = useState<number>(1);
   const { movies } = useParams<{ movies?: string; series?: string }>();
-  console.log(movies);
   const type = movies === "movies" ? "movie" : "tv";
   const genres: Genre[] = type === "movie" ? movieGenres : tvGenres;
 
   const handleGenreSelect = (value: string | null) => {
     if (value !== null) {
-      console.log(value);
       setSelectedGenre(value);
       setList([]);
       setPage(1);
@@ -48,7 +47,6 @@ export const Movies: React.FC = () => {
   useEffect(() => {
     setPage(1);
     const genre = genres.find((genre: Genre) => genre.name === selectedGenre);
-    console.log("genre.name", genre?.name);
     if (genre) {
       fetchData("genre", type, genre.id, page)
         .then((response) => {
@@ -116,7 +114,13 @@ export const Movies: React.FC = () => {
               marginLeft: "2%",
             }}
             onChange={(event, value) => handleGenreSelect(value)}
-            renderInput={(params) => <TextField {...params} label={type} />}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label={type === "movie" ? "movie" : "serie"}
+                InputLabelProps={{ style: { color: "white" } }}
+              />
+            )}
           />
         </StyledAutocomplete>
         <InfiniteScroll
@@ -129,8 +133,8 @@ export const Movies: React.FC = () => {
         >
           <BackdropContainer>
             {list.map((movie: CardProps) => (
-              <CardContainer>
-                <Backdrop key={movie.id} {...movie} type={type} />
+              <CardContainer key={movie.id}>
+                <Backdrop {...movie} type={type} />
               </CardContainer>
             ))}
           </BackdropContainer>

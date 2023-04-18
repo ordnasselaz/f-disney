@@ -1,5 +1,10 @@
-import { Typography, useMediaQuery } from "@mui/material";
-import { StyledFullToolbar, StyledLink, StyledAppBar } from "./styles";
+import { useMediaQuery } from "@mui/material";
+import {
+  StyledFullToolbar,
+  StyledLink,
+  StyledAppBar,
+  StyledTypography,
+} from "./styles";
 import logo from "../../utils/img/logo.jpeg";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
@@ -19,45 +24,45 @@ export const Navbar: React.FC = () => {
           {isSmallerThan600 ? (
             <HomeRoundedIcon />
           ) : (
-            <Typography variant="h6" component="div">
-              HOME
-            </Typography>
+            <StyledTypography variant="h6">
+              <HomeRoundedIcon /> HOME
+            </StyledTypography>
           )}
         </StyledLink>
         <StyledLink to={`/Search`}>
           {isSmallerThan600 ? (
             <SearchRoundedIcon />
           ) : (
-            <Typography variant="h6" component="div">
-              SEARCH
-            </Typography>
+            <StyledTypography variant="h6">
+              <SearchRoundedIcon /> SEARCH
+            </StyledTypography>
           )}
         </StyledLink>
         <StyledLink to={`/watchlist`}>
           {isSmallerThan600 ? (
             <AddRoundedIcon />
           ) : (
-            <Typography variant="h6" component="div">
-              LIST
-            </Typography>
+            <StyledTypography variant="h6">
+              <AddRoundedIcon /> LIST
+            </StyledTypography>
           )}
         </StyledLink>
         <StyledLink to={`/movies`}>
           {isSmallerThan600 ? (
             <LocalMoviesRoundedIcon />
           ) : (
-            <Typography variant="h6" component="div">
-              MOVIE
-            </Typography>
+            <StyledTypography variant="h6">
+              <LocalMoviesRoundedIcon /> MOVIE
+            </StyledTypography>
           )}
         </StyledLink>
         <StyledLink to={`/series`}>
           {isSmallerThan600 ? (
             <LiveTvRoundedIcon />
           ) : (
-            <Typography variant="h6" component="div">
-              SERIE
-            </Typography>
+            <StyledTypography variant="h6">
+              <LiveTvRoundedIcon /> SERIE
+            </StyledTypography>
           )}
         </StyledLink>
       </StyledFullToolbar>

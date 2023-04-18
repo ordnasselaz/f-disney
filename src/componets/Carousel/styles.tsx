@@ -8,7 +8,7 @@ export const Text = styled(Typography)`
   color: white;
   text-decoration: none;
   padding-bottom: 1%;
-  margin: 2%;
+  margin: 4% 0% 0% 4%;
 `;
 
 const ArrowLeft = ({ currentSlide, slideCount, ...props }: any) => {
@@ -50,7 +50,17 @@ const ArrowRight = ({ currentSlide, slideCount, ...props }: any) => {
     </Button>
   );
 };
-
+export const settings1 = {
+  dots: true,
+  autoplay: true,
+  adaptiveHeight: true,
+  autoplaySpeed: 5000,
+  slidesToShow: 2,
+  slidesToScroll: 1,
+  initialSlide: 1,
+  prevArrow: <ArrowLeft />,
+  nextArrow: <ArrowRight />,
+};
 export const settings = {
   centerMode: false,
   dots: false,

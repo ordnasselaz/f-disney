@@ -121,3 +121,13 @@ export type Episodes = {
   still_path: string;
   season_number: number;
 };
+
+export type CardProps = {
+  id?: number;
+  backdrop_path?: string;
+  still_path?: string;
+  title?: string;
+  type?: string;
+  media_type?: string;
+  name?: string;
+};

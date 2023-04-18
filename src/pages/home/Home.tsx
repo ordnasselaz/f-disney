@@ -9,9 +9,16 @@ import {
   setAuthentication,
   setListId,
 } from "../../utils/redux/action";
-import { Container, StyledMain, StyledNavbar } from "./styles";
+import {
+  Container,
+  StyledFooter,
+  StyledMain,
+  StyledNavbar,
+  StyledPopularCarousel,
+} from "./styles";
 import { Carousel } from "../../componets/Carousel";
 import { RootState } from "../../utils/redux/store";
+import { Footer } from "../../componets/Footer";
 
 export const Home: React.FC = () => {
   const requestToken: string = useSelector(
@@ -40,18 +47,25 @@ export const Home: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Container>
-      <StyledNavbar>
-        <Navbar />
-      </StyledNavbar>
-      <StyledMain>
-        <Carousel id="popular" type="movie" />
-        <Carousel id="popular" type="tv" />
-        <Carousel id="genre" genre="Crime" type="movie" />
-        <Carousel id="topRated" type="movie" />
-        <Carousel id="topRated" type="tv" />
-        <Carousel id="genre" genre="Animation" type="tv" />
-      </StyledMain>
-    </Container>
+    <>
+      <Container>
+        <StyledNavbar>
+          <Navbar />
+        </StyledNavbar>
+        <StyledPopularCarousel>
+          <Carousel id="popular" type="movie" settingsCarusel />
+        </StyledPopularCarousel>
+        <StyledMain>
+          <Carousel id="genre" genre="Action & Adventure" type="tv" />
+          <Carousel id="genre" genre="Crime" type="movie" />
+          <Carousel id="lastest" type="movie" />
+          <Carousel id="topRated" type="tv" />
+          <Carousel id="genre" genre="Animation" type="tv" />
+        </StyledMain>
+      </Container>
+      <StyledFooter>
+        <Footer></Footer>
+      </StyledFooter>
+    </>
   );
 };

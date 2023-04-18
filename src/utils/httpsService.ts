@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { CardProps } from "../componets/Backdrop/Backdrop";
+import { CardProps } from "./types";
 import { apiKey, ReadAccessToken as rat } from "./apiKey";
 import {
   ApiResponseHome,

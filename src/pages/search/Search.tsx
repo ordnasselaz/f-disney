@@ -1,9 +1,9 @@
-import { Box, TextField, debounce } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect, useState } from "react";
 import { getResultByKeyword } from "../../utils/httpsService";
-import { Backdrop, CardProps } from "../../componets/Backdrop";
-import { CardWrapper } from "../watchlist/styles";
+import { Backdrop } from "../../componets/Backdrop";
+import { CardProps } from "../../utils/types";
 import { Navbar } from "../../componets/Navbar";
 import {
   CardContainer,
@@ -11,6 +11,7 @@ import {
   StyledMain,
   StyledTextField,
 } from "./styles";
+import { Footer } from "../../componets/Footer";
 
 export const Search: React.FC = ({}) => {
   const [searchField, setSearchField] = useState("");
@@ -51,8 +52,6 @@ export const Search: React.FC = ({}) => {
       (movie.media_type === "tv" && movie.overview !== "")
   );
 
-  console.log(page);
-  //debounce(() => onSearchChange, 100);
   return (
     <Box>
       <Navbar></Navbar>
@@ -78,14 +77,15 @@ export const Search: React.FC = ({}) => {
           >
             <CardListContainer>
               {filteredResult.map((movie: CardProps) => (
-                <CardContainer>
-                  <Backdrop key={movie.id} {...movie} type={movie.media_type} />
+                <CardContainer key={movie.id}>
+                  <Backdrop {...movie} type={movie.media_type} />
                 </CardContainer>
               ))}{" "}
             </CardListContainer>
           </InfiniteScroll>
         )}
       </StyledMain>
+      <Footer></Footer>
     </Box>
   );
 };

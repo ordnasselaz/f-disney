@@ -2,15 +2,7 @@ import { CardMedia } from "@mui/material";
 import { StyledLink } from "../Navbar/styles";
 import { StyledBackdrop, Text } from "./styles";
 import def from "../../utils/img/def.png";
-export type CardProps = {
-  id?: number;
-  backdrop_path?: string;
-  still_path?: string;
-  title?: string;
-  type?: string;
-  media_type?: string;
-  name?: string;
-};
+import { CardProps } from "../../utils/types";
 
 export const Backdrop: React.FC<CardProps> = ({
   id,

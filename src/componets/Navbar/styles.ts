@@ -1,10 +1,19 @@
-import { AppBar, Toolbar } from "@mui/material";
+import { AppBar, Toolbar, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 
 export const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
+`;
+
+export const StyledTypography = styled(Typography)`
+  display: flex;
+  align-items: center;
+  gap: 5%;
+  &:hover {
+    border-bottom: 2px solid white;
+  }
 `;
 
 export const StyledAppBar = styled(AppBar)`

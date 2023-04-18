@@ -72,6 +72,7 @@ export const StyledMain = styled(CardContent)`
     rgba(26, 29, 41, 1) 0%,
     rgba(26, 29, 41, 0.01) 100%
   );
+  height: 90vh;
 `;
 
 export const Title = styled(Typography)`

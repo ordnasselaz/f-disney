@@ -5,10 +5,12 @@ export const Container = styled(Box)`
   background-color: rgb(26, 29, 41);
   display: grid;
   grid-template-columns: 0.2fr 1fr 1fr;
-  grid-template-rows: 0.2fr 0.1fr 0.1fr;
+  grid-template-rows: 0.1fr 0.1fr 0.1fr;
   grid-template-areas:
     "StyledNavbar StyledNavbar StyledNavbar"
-    "StyledMain StyledMain StyledMain";
+    "StyledPopularCarousel StyledPopularCarousel StyledPopularCarousel"
+    "StyledMain StyledMain StyledMain"
+    "StyledFooter StyledFooter StyledFooter";
 `;
 
 export const StyledMain = styled(Box)`
@@ -19,4 +21,12 @@ export const StyledMain = styled(Box)`
 
 export const StyledNavbar = styled(Box)`
   grid-area: StyledNavbar;
+`;
+
+export const StyledPopularCarousel = styled(Box)`
+  grid-area: StyledPopularCarousel;
+`;
+
+export const StyledFooter = styled(Box)`
+  grid-area: StyledFooter;
 `;

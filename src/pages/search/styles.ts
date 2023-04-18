@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 
 export const StyledMain = styled(Box)`
   margin-top: 6%;
+  min-height: 70vh;
 `;
 
 export const CardListContainer = styled(Box)`
