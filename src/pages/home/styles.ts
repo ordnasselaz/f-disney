@@ -11,6 +11,15 @@ export const Container = styled(Box)`
     "StyledPopularCarousel StyledPopularCarousel StyledPopularCarousel"
     "StyledMain StyledMain StyledMain"
     "StyledFooter StyledFooter StyledFooter";
+  @media (min-width: 400px) {
+    grid-template-columns: 0.2fr 1fr 1fr;
+    grid-template-rows: 0.3fr 0.3fr 0.1fr;
+    grid-template-areas:
+      "StyledNavbar StyledNavbar StyledNavbar"
+      "StyledPopularCarousel StyledPopularCarousel StyledPopularCarousel"
+      "StyledMain StyledMain StyledMain"
+      "StyledFooter StyledFooter StyledFooter";
+  }
 `;
 
 export const StyledMain = styled(Box)`
