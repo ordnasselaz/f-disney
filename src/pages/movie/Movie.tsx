@@ -16,7 +16,7 @@ import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Navbar } from "../../componets/Navbar";
-import { Backdrop } from "../../componets/Backdrop";
+import { Backdrop } from "../../componets/backdrop";
 import { ApiResponseMovie, Data, Episodes } from "../../utils/types";
 import {
   addItem,

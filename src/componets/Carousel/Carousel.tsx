@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { fetchData } from "../../utils/httpsService";
-import { Backdrop } from "../Backdrop";
+import { Backdrop } from "../backdrop";
 import { settings, Text, settings1 } from "./styles";
 import { movieGenres, tvGenres } from "../../utils/genres";
 import { CardProps } from "../../utils/types";

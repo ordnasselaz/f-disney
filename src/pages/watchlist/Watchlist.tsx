@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Backdrop } from "../../componets/Backdrop";
+import { Backdrop } from "../../componets/backdrop";
 import { Navbar } from "../../componets/Navbar";
 import { getListById } from "../../utils/httpsService";
 import { CardProps } from "../../utils/types";

@@ -2,7 +2,7 @@ import { Box, TextField } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect, useState } from "react";
 import { getResultByKeyword } from "../../utils/httpsService";
-import { Backdrop } from "../../componets/Backdrop";
+import { Backdrop } from "../../componets/backdrop";
 import { CardProps } from "../../utils/types";
 import { Navbar } from "../../componets/Navbar";
 import {

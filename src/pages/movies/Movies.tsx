@@ -2,7 +2,7 @@ import { Autocomplete, Box, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
-import { Backdrop } from "../../componets/Backdrop";
+import { Backdrop } from "../../componets/backdrop";
 import { Navbar } from "../../componets/Navbar";
 import { movieGenres, tvGenres } from "../../utils/genres";
 import { fetchData } from "../../utils/httpsService";
