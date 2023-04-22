@@ -166,7 +166,8 @@ export const getResultByKeyword = async (
 export const getRequestToken = async () => {
   const redirect = JSON.stringify({
     // Page where to redirect after authorization
-    redirect_to: "http://localhost:3000/home",
+    //redirect_to: "http://localhost:3000/home",
+    redirect_to: " http://f-disney.vercel.app/home",
   });
   const config: AxiosRequestConfig = {
     url: "https://api.themoviedb.org/4/auth/request_token",
