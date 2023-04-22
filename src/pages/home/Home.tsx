@@ -58,9 +58,10 @@ export const Home: React.FC = () => {
         <StyledMain>
           <Carousel id="genre" genre="Action & Adventure" type="tv" />
           <Carousel id="genre" genre="Crime" type="movie" />
-          <Carousel id="lastest" type="movie" />
+          <Carousel id="topRated" type="movie" />
           <Carousel id="topRated" type="tv" />
           <Carousel id="genre" genre="Animation" type="tv" />
+          <Carousel id="genre" genre="Drama" type="tv" />
         </StyledMain>
       </Container>
       <StyledFooter>

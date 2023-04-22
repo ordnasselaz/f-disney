@@ -61,6 +61,30 @@ export const settings1 = {
   prevArrow: <ArrowLeft />,
   nextArrow: <ArrowRight />,
 };
+export const settings600 = {
+  centerMode: false,
+  dots: false,
+  infinite: false,
+  slidesToShow: 2.5,
+  slidesToScroll: 1,
+  initialSlide: 0,
+  arrows: true,
+  mobileFirst: true,
+  prevArrow: <ArrowLeft />,
+  nextArrow: <ArrowRight />,
+};
+export const settings400 = {
+  centerMode: false,
+  dots: false,
+  infinite: false,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  initialSlide: 0,
+  arrows: true,
+  mobileFirst: true,
+  prevArrow: <ArrowLeft />,
+  nextArrow: <ArrowRight />,
+};
 export const settings = {
   centerMode: false,
   dots: false,

@@ -4,9 +4,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { fetchData } from "../../utils/httpsService";
 import { Backdrop } from "../backdrop";
-import { settings, Text, settings1 } from "./styles";
+import { settings, Text, settings1, settings600, settings400 } from "./styles";
 import { movieGenres, tvGenres } from "../../utils/genres";
 import { CardProps } from "../../utils/types";
+import { useMediaQuery } from "@mui/material";
 
 type CaruselProps = {
   id?: string;
@@ -48,6 +49,8 @@ export const Carousel: React.FC<CaruselProps> = ({
   genre,
   settingsCarusel,
 }) => {
+  const isSmallerThan600 = useMediaQuery("(max-width:600px)");
+  const isSmallerThan400 = useMediaQuery("(max-width:400px)");
   const [list, setList] = useState<Array<CardProps>>([]);
   useEffect(() => {
     if (initialList && initialList.length > 0) {
@@ -69,7 +72,19 @@ export const Carousel: React.FC<CaruselProps> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const dimension = settingsCarusel ? settings1 : settings;
+  //settingsCarusel ? settings1 : settings;
+  let dimension = {};
+
+  if (isSmallerThan400) {
+    dimension = settings400;
+  } else if (isSmallerThan600) {
+    dimension = settings600;
+  } else if (settingsCarusel) {
+    dimension = settings1;
+  } else {
+    dimension = settings;
+  }
+
   const filteredList = list.filter(
     (item) => item.backdrop_path && item.backdrop_path !== ""
   );

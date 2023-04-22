@@ -5,15 +5,15 @@ export const Container = styled(Box)`
   background-color: rgb(26, 29, 41);
   display: grid;
   grid-template-columns: 0.2fr 1fr 1fr;
-  grid-template-rows: 0.1fr 0.1fr 0.1fr;
+  grid-template-rows: 0.2fr 0.2fr 0.2fr;
   grid-template-areas:
     "StyledNavbar StyledNavbar StyledNavbar"
     "StyledPopularCarousel StyledPopularCarousel StyledPopularCarousel"
     "StyledMain StyledMain StyledMain"
     "StyledFooter StyledFooter StyledFooter";
-  @media (min-width: 400px) {
+  @media (max-width: 600px) {
     grid-template-columns: 0.2fr 1fr 1fr;
-    grid-template-rows: 0.3fr 0.3fr 0.1fr;
+    grid-template-rows: 0.1fr 0.3fr 0.3fr;
     grid-template-areas:
       "StyledNavbar StyledNavbar StyledNavbar"
       "StyledPopularCarousel StyledPopularCarousel StyledPopularCarousel"
