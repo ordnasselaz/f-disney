@@ -77,7 +77,7 @@ export const settings400 = {
   centerMode: false,
   dots: false,
   infinite: false,
-  slidesToShow: 1,
+  slidesToShow: 1.5,
   slidesToScroll: 1,
   initialSlide: 0,
   arrows: true,
