@@ -307,7 +307,7 @@ export const Movie: React.FC = () => {
                   <Text>{runtime}</Text>
                 </>
               )}
-              <Text2>Realse Date:</Text2>
+              <Text2>Release Date:</Text2>
               <Text>{release_date}</Text>
               <Text2>Genre:</Text2>
               <Text>{genres?.map((genre) => genre).join(", ")}</Text>
