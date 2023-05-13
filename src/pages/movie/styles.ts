@@ -1,5 +1,12 @@
 import { styled } from "@mui/material/styles";
-import { Box, Typography, Button, CardContent, Collapse } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  CardContent,
+  Collapse,
+  Paper,
+} from "@mui/material";
 
 export const BackgroundImage = styled(Box)`
   //background-color: rgb(26, 29, 41);
@@ -101,6 +108,14 @@ export const CardContentDetails = styled(CardContent)`
   display: flex;
 `;
 
+export const StyledPaper = styled(Paper)`
+  max-height: 100px; // Imposta l'altezza massima del box
+  overflow-y: auto; // Aggiunge una barra di scorrimento verticale se necessario
+  background-color: transparent;
+  @media (max-width: 600px) {
+    max-height: 250px;
+  }
+`;
 export const StyledOverview = styled(Box)`
   width: 50%;
   margin-top: 1%;

@@ -2,7 +2,12 @@ import { AppBar, Box, CardMedia, Link, Modal, Typography } from "@mui/material";
 import Button from "@mui/material/Button/Button";
 import React, { useState } from "react";
 import { getRequestToken } from "../../utils/httpsService";
-import { StyledLogin, StyledToolbar } from "./styles";
+import {
+  StyledButton,
+  StyledLogin,
+  StyledModal,
+  StyledToolbar,
+} from "./styles";
 import background1 from "../../utils/img/loginBackground1.jpeg";
 import background2 from "../../utils/img/loginBackground2.jpeg";
 import { useDispatch } from "react-redux";
@@ -48,12 +53,12 @@ export const Login: React.FC = () => {
     <StyledLogin>
       <AppBar position="fixed">
         <StyledToolbar>
-          <Button variant="contained" onClick={handleLogin}>
+          <StyledButton variant="contained" onClick={handleLogin}>
             Accedi
-          </Button>
+          </StyledButton>
         </StyledToolbar>
       </AppBar>
-      <Modal
+      <StyledModal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -71,7 +76,7 @@ export const Login: React.FC = () => {
             To continue you must authorize the app to access TMDB
           </Typography>
         </Box>
-      </Modal>
+      </StyledModal>
       <CardMedia component="img" image={background1} alt="Background1" />
       <CardMedia component="img" image={background2} alt="Background2" />
     </StyledLogin>

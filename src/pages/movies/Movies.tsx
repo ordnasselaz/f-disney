@@ -18,7 +18,8 @@ type Genre = {
   name: string;
 };
 export const Movies: React.FC = () => {
-  const [selectedGenre, setSelectedGenre] = useState("Crime");
+  const firstGenre = "Crime";
+  const [selectedGenre, setSelectedGenre] = useState(firstGenre);
   const [list, setList] = useState<Array<CardProps>>([]);
   const [page, setPage] = useState<number>(1);
   const { movies } = useParams<{ movies?: string; series?: string }>();
@@ -45,7 +46,9 @@ export const Movies: React.FC = () => {
   }, [page]);
 
   useEffect(() => {
+    setSelectedGenre(firstGenre);
     setPage(1);
+    setList([]);
     const genre = genres.find((genre: Genre) => genre.name === selectedGenre);
     if (genre) {
       fetchData("genre", type, genre.id, page)
@@ -55,48 +58,9 @@ export const Movies: React.FC = () => {
         .catch((error) => console.error(error));
     }
   }, [type, selectedGenre]);
-  /*
-  useEffect(() => {
-    setList([]);
-    setSelectedGenre("Crime");
-    setPage(1);
-    concatResults();
-  }, [type]);
-  useEffect(() => {
-    setList([]);
-    setPage(1);
-    concatResults();
-  }, [selectedGenre]);
-  */
-  /*
-  useEffect(() => {
-    if (selectedGenre) {
-      const genre = genres.find((genre: Genre) => genre.name === selectedGenre);
-      console.log("genre.name", genre?.name);
-      if (genre) {
-        fetchData("genre", type, genre.id, page)
-          .then((response) => {
-            setList(list.concat(response));
-          })
-          .catch((error) => console.error(error));
-      }
-    }
-  }, [page, selectedGenre, movies]);
-*/
 
-  /*
-  useEffect(() => {
-    const genre = genres.find((genre: Genre) => genre.name === selectedGenre);
-    console.log("genre.name", genre?.name);
-    if (genre) {
-      fetchData("genre", type, genre.id, page)
-        .then((response) => {
-          setList(list.concat(response));
-        })
-        .catch((error) => console.error(error));
-    }
-  }, [page]);
-*/
+  console.log(type);
+  console.log(list);
   return (
     <>
       <Navbar />

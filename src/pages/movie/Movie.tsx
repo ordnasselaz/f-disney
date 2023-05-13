@@ -6,6 +6,7 @@ import {
   Collapse,
   FormControlLabel,
   IconButton,
+  Paper,
   Switch,
   Tooltip,
 } from "@mui/material";
@@ -42,6 +43,7 @@ import {
   Text,
   Text2,
   Title,
+  StyledPaper,
 } from "./styles";
 import PlayArrowRounded from "@mui/icons-material/PlayArrowRounded";
 import { useDispatch, useSelector } from "react-redux";
@@ -213,7 +215,13 @@ export const Movie: React.FC = () => {
         ) : (
           <StyledOverview>
             <Collapse collapsedSize={"70px"} in={collapseOverview}>
-              <Text>{overview}</Text>
+              {collapseOverview ? (
+                <StyledPaper>
+                  <Text>{overview}</Text>
+                </StyledPaper>
+              ) : (
+                <Text>{overview}</Text>
+              )}
             </Collapse>
             {!collapseOverview && (
               <Text>
